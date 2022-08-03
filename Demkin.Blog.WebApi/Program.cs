@@ -1,3 +1,4 @@
+using Autofac.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -36,6 +37,8 @@ namespace Demkin.Blog.WebApi
                 var builder = CreateHostBuilder(args);
                 // 修改默认的日志框架
                 builder.UseSerilog();
+                // 更换依赖注入容器
+                builder.UseServiceProviderFactory(new AutofacServiceProviderFactory());
 
                 builder.Build().Run();
             }
