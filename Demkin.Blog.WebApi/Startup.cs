@@ -1,3 +1,11 @@
+using Demkin.Blog.DbAccess;
+using Demkin.Blog.DbAccess.UnitOfWork;
+using Demkin.Blog.Extensions.Middlewares;
+using Demkin.Blog.Extensions.ServiceExtensions;
+using Demkin.Blog.IService.Base;
+using Demkin.Blog.Repository.Base;
+using Demkin.Blog.Service.Base;
+using Demkin.Blog.Utils.Help;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -25,14 +33,27 @@ namespace Demkin.Blog.WebApi
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+
+            services.AddSingleton(new Appsettings(Configuration));
+
+            services.AddSwaggerSetup();
+
+            // SqlSugar
+            services.AddSqlSugarSetup();
+            services.AddScoped<MyDbContext>();
+
+            services.AddScoped(typeof(IBaseService<>), typeof(BaseService<>));
+            services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, MyDbContext myDbContext)
         {
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseSwaggerMiddleware();
             }
 
             app.UseRouting();
@@ -43,6 +64,8 @@ namespace Demkin.Blog.WebApi
             {
                 endpoints.MapControllers();
             });
+
+            app.UseInitBasicDataMiddleware(myDbContext, env.WebRootPath);
         }
     }
 }

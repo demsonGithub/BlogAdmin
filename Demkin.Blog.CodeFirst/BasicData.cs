@@ -76,7 +76,7 @@ namespace Demkin.Blog.CodeFirst
                     #endregion SysUserInfo
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 throw;
             }

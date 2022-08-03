@@ -8,5 +8,19 @@
     <Folder Include="wwwroot\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Serilog.AspNetCore" Version="6.0.1" />
+    <PackageReference Include="Serilog.Settings.Configuration" Version="3.3.0" />
+    <PackageReference Include="Serilog.Sinks.Async" Version="1.5.0" />
+    <PackageReference Include="Serilog.Sinks.File" Version="5.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Demkin.Blog.DTO\Demkin.Blog.DTO.csproj" />
+    <ProjectReference Include="..\Demkin.Blog.Extensions\Demkin.Blog.Extensions.csproj" />
+    <ProjectReference Include="..\Demkin.Blog.IService\Demkin.Blog.IService.csproj" />
+    <ProjectReference Include="..\Demkin.Blog.Service\Demkin.Blog.Service.csproj" />
+  </ItemGroup>
+
 
 </Project>

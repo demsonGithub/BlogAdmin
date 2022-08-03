@@ -4,7 +4,7 @@ using System;
 
 namespace Demkin.Blog.Entity.Root
 {
-    public class EntityRecordBase
+    public class EntityRecordBase : EntityBase
     {
         public EntityRecordBase()
         {

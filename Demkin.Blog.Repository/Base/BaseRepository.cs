@@ -10,17 +10,23 @@ namespace Demkin.Blog.Repository.Base
     public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : class, new()
     {
         private readonly IUnitOfWork _unitOfWork;
-        private readonly SqlSugarScope _sqlSugarScope;
+
+        private ISqlSugarClient _db;
+
+        public ISqlSugarClient Db
+        {
+            get { return _db; }
+        }
 
         public BaseRepository(IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
-            _sqlSugarScope = unitOfWork.GetDbClient();
+            _db = unitOfWork.GetDbClient();
         }
 
         public async Task<TEntity> AddAsync(TEntity entity)
         {
-            var insertEntity = _sqlSugarScope.Insertable(entity);
+            var insertEntity = _db.Insertable(entity);
 
             return await insertEntity.ExecuteReturnEntityAsync();
         }
@@ -62,7 +68,9 @@ namespace Demkin.Blog.Repository.Base
 
         public Task<TEntity> GetEntityAsync(Expression<Func<TEntity, bool>> whereExpresision)
         {
-            throw new NotImplementedException();
+            var selectEntity = _db.Queryable<TEntity>().SingleAsync(whereExpresision);
+
+            return selectEntity;
         }
 
         public Task<List<TEntity>> GetEntityListAsync()
