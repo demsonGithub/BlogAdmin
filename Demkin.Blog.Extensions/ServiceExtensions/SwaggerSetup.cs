@@ -27,7 +27,7 @@ namespace Demkin.Blog.Extensions.ServiceExtensions
                 c.OrderActionsBy(x => x.RelativePath);
                 try
                 {
-                    string xmlPath = Path.Combine(basePath, "Demkin.Blog.WebAp1.xml");
+                    string xmlPath = Path.Combine(basePath, "Demkin.Blog.WebApi.xml");
                     c.IncludeXmlComments(xmlPath, true);
 
                     string dtoXmlPath = Path.Combine(basePath, "Demkin.Blog.DTO.xml");
@@ -35,7 +35,7 @@ namespace Demkin.Blog.Extensions.ServiceExtensions
                 }
                 catch (Exception)
                 {
-                    Log.Information("xml注释文件不存在");
+                    Log.Warning("xml注释文件不存在");
                 }
             });
         }
