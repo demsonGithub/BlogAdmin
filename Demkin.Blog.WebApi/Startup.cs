@@ -40,7 +40,7 @@ namespace Demkin.Blog.WebApi
                 //解决命名不一致问题
                 options.SerializerSettings.ContractResolver = new DefaultContractResolver();
                 //忽略空值处理
-                options.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
+                //options.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
             });
 
             services.AddSingleton(new Appsettings(Configuration));

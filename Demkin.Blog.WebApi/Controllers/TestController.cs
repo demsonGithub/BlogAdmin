@@ -4,6 +4,8 @@ using Demkin.Blog.Entity;
 using Demkin.Blog.IService.Base;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+using System;
 using System.Threading.Tasks;
 
 namespace Demkin.Blog.WebApi.Controllers
@@ -15,31 +17,42 @@ namespace Demkin.Blog.WebApi.Controllers
     [ApiController]
     public class TestController : ControllerBase
     {
+        private readonly ILogger<TestController> _logger;
         private readonly IBaseService<SysUser> _sysUserService;
 
-        public TestController(IBaseService<SysUser> sysUserService)
+        public TestController(ILogger<TestController> logger, IBaseService<SysUser> sysUserService)
         {
+            _logger = logger;
             _sysUserService = sysUserService;
         }
 
         /// <summary>
         /// 测试获取用户信息Dto
         /// </summary>
-        /// <param name="account"></param>
+        /// <param name="account">账号</param>
         /// <returns></returns>
         [HttpGet]
         public async Task<ApiResponse<SysUserDto>> GetSysUserInfoTest(string account)
         {
-            var sysUserBo = await _sysUserService.GetEntityAsync(item => item.LoginAccount == account);
-
-            SysUserDto result = new SysUserDto
+            _logger.LogInformation("开始执行");
+            try
             {
-                LoginAccount = sysUserBo?.LoginAccount,
-                Id = (long)sysUserBo?.Id,
-                NickName = sysUserBo?.NickName,
-            };
+                var sysUserBo = await _sysUserService.GetEntityAsync(item => item.LoginAccount == account);
 
-            return ApiHelper.Success(result);
+                SysUserDto result = new SysUserDto
+                {
+                    LoginAccount = sysUserBo?.LoginAccount,
+                    Id = (long)sysUserBo?.Id,
+                    NickName = sysUserBo?.NickName,
+                };
+
+                return ApiHelper.Success(result);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "GetSysUserInfoTest出现异常");
+                return ApiHelper.Failed<SysUserDto>("A0002", ex.Message, null);
+            }
         }
     }
 }

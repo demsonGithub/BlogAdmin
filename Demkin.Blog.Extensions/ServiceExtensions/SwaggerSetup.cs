@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
+using Serilog;
 using System;
 using System.IO;
 
@@ -26,11 +27,15 @@ namespace Demkin.Blog.Extensions.ServiceExtensions
                 c.OrderActionsBy(x => x.RelativePath);
                 try
                 {
-                    string xmlPath = Path.Combine(basePath, "Demkin.CMS.WebApi.xml");
+                    string xmlPath = Path.Combine(basePath, "Demkin.Blog.WebAp1.xml");
                     c.IncludeXmlComments(xmlPath, true);
+
+                    string dtoXmlPath = Path.Combine(basePath, "Demkin.Blog.DTO.xml");
+                    c.IncludeXmlComments(dtoXmlPath);
                 }
                 catch (Exception)
                 {
+                    Log.Information("xml注释文件不存在");
                 }
             });
         }

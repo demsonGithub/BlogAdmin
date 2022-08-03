@@ -1,0 +1,115 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Demkin.Blog.DTO</name>
+    </assembly>
+    <members>
+        <member name="M:Demkin.Blog.DTO.ApiHelper.Success``1(``0)">
+            <summary>
+            成功返回
+            </summary>
+            <param name="obj"></param>
+            <returns></returns>
+        </member>
+        <member name="P:Demkin.Blog.DTO.ApiResponse`1.Code">
+            <summary>
+            返回的状态码
+            </summary>
+        </member>
+        <member name="P:Demkin.Blog.DTO.ApiResponse`1.Msg">
+            <summary>
+            返回信息
+            </summary>
+        </member>
+        <member name="P:Demkin.Blog.DTO.ApiResponse`1.Data">
+            <summary>
+            返回数据
+            </summary>
+        </member>
+        <member name="T:Demkin.Blog.DTO.PageModel`1">
+            <summary>
+            分页信息
+            </summary>
+        </member>
+        <member name="P:Demkin.Blog.DTO.PageModel`1.CurrentPage">
+            <summary>
+            当前页
+            </summary>
+        </member>
+        <member name="P:Demkin.Blog.DTO.PageModel`1.PageSize">
+            <summary>
+            每页数据大小
+            </summary>
+        </member>
+        <member name="P:Demkin.Blog.DTO.PageModel`1.PageTotal">
+            <summary>
+            总数
+            </summary>
+        </member>
+        <member name="P:Demkin.Blog.DTO.PageModel`1.PageCount">
+            <summary>
+            总页数
+            </summary>
+        </member>
+        <member name="P:Demkin.Blog.DTO.PageModel`1.Data">
+            <summary>
+            返回的数据
+            </summary>
+        </member>
+        <member name="P:Demkin.Blog.DTO.SysUser.SysUserDto.LoginAccount">
+            <summary>
+            登录账号
+            </summary>
+        </member>
+        <member name="P:Demkin.Blog.DTO.SysUser.SysUserDto.NickName">
+            <summary>
+            昵称
+            </summary>
+        </member>
+        <member name="P:Demkin.Blog.DTO.SysUser.SysUserInsertVO.LoginAccount">
+            <summary>
+            登录账号
+            </summary>
+        </member>
+        <member name="P:Demkin.Blog.DTO.SysUser.SysUserInsertVO.LoginPwd">
+            <summary>
+            登录密码
+            </summary>
+        </member>
+        <member name="P:Demkin.Blog.DTO.SysUser.SysUserInsertVO.NickName">
+            <summary>
+            昵称
+            </summary>
+        </member>
+        <member name="P:Demkin.Blog.DTO.SysUser.SysUserInsertVO.RealName">
+            <summary>
+            真实姓名
+            </summary>
+        </member>
+        <member name="P:Demkin.Blog.DTO.SysUser.SysUserInsertVO.Gender">
+            <summary>
+            性别
+            </summary>
+        </member>
+        <member name="P:Demkin.Blog.DTO.SysUser.SysUserInsertVO.Age">
+            <summary>
+            年龄
+            </summary>
+        </member>
+        <member name="P:Demkin.Blog.DTO.SysUser.SysUserInsertVO.Phone">
+            <summary>
+            电话
+            </summary>
+        </member>
+        <member name="P:Demkin.Blog.DTO.SysUser.SysUserInsertVO.Address">
+            <summary>
+            地址
+            </summary>
+        </member>
+        <member name="P:Demkin.Blog.DTO.SysUser.SysUserInsertVO.Remark">
+            <summary>
+            备注
+            </summary>
+        </member>
+    </members>
+</doc>
