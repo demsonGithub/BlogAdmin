@@ -4,4 +4,9 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Demkin.Blog.IService\Demkin.Blog.IService.csproj" />
+    <ProjectReference Include="..\Demkin.Blog.Repository\Demkin.Blog.Repository.csproj" />
+  </ItemGroup>
+
 </Project>
