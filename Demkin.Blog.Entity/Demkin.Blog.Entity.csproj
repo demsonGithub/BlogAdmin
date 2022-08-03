@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="SqlSugarCore" Version="5.1.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Demkin.Blog.Enum\Demkin.Blog.Enum.csproj" />
+    <ProjectReference Include="..\Demkin.Blog.Utils\Demkin.Blog.Utils.csproj" />
+  </ItemGroup>
+
+</Project>

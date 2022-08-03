@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Demkin.Blog.DbAccess\Demkin.Blog.DbAccess.csproj" />
+    <ProjectReference Include="..\Demkin.Blog.Entity\Demkin.Blog.Entity.csproj" />
+  </ItemGroup>
+
+</Project>
