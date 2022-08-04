@@ -7,6 +7,7 @@ using Microsoft.Extensions.Logging;
 using Serilog;
 using System;
 using System.IO;
+using System.Runtime.InteropServices;
 
 namespace Demkin.Blog.WebApi
 {
@@ -40,7 +41,15 @@ namespace Demkin.Blog.WebApi
                 // 更换依赖注入容器
                 builder.UseServiceProviderFactory(new AutofacServiceProviderFactory());
 
-                builder.Build().Run();
+                // 判断如果是window，可使用服务的方式启动
+                if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+                {
+                    // Nuget: Microsoft.Extensions.Hosting.WindowsServices
+                    builder.UseWindowsService();
+                }
+                var host = builder.Build();
+
+                host.Run();
             }
             catch (Exception ex)
             {
@@ -56,6 +65,7 @@ namespace Demkin.Blog.WebApi
             Host.CreateDefaultBuilder(args)
             .ConfigureWebHostDefaults(webBuilder =>
                 {
+                    webBuilder.UseUrls(args.Length == 0 ? $"http://*:8090" : $"http://*:{args[0]}");
                     webBuilder.UseStartup<Startup>();
                 });
     }

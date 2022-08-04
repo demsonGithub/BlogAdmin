@@ -34,6 +34,7 @@ namespace Demkin.Blog.WebApi.Controllers
         [HttpGet]
         public async Task<ApiResponse<SysUserDto>> GetSysUserInfoTest(string account)
         {
+            _logger.LogInformation("hello");
             try
             {
                 var sysUserBo = await _sysUserService.GetEntityAsync(item => item.LoginAccount == account);
