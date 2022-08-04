@@ -51,8 +51,6 @@ namespace Demkin.Blog.WebApi
             services.AddSqlSugarSetup();
             services.AddScoped<MyDbContext>();
 
-            //services.AddScoped(typeof(IBaseService<>), typeof(BaseService<>));
-            //services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
             services.AddScoped<IUnitOfWork, UnitOfWork>();
         }
 

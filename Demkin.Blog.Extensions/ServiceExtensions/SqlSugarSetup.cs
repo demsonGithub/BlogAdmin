@@ -1,7 +1,9 @@
 ﻿using Demkin.Blog.Utils.SystemConfig;
 using Microsoft.Extensions.DependencyInjection;
+using Serilog;
 using SqlSugar;
 using System;
+using System.Linq;
 
 namespace Demkin.Blog.Extensions.ServiceExtensions
 {
@@ -18,7 +20,7 @@ namespace Demkin.Blog.Extensions.ServiceExtensions
                     DbType = (DbType)DbConfigInfo.Type,
                     ConnectionString = DbConfigInfo.ConnectionString,
                     IsAutoCloseConnection = true,
-                    InitKeyType = InitKeyType.Attribute
+                    InitKeyType = InitKeyType.Attribute,
                 };
 
                 return new SqlSugarScope(connectionConfig);

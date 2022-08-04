@@ -1,5 +1,8 @@
-﻿using SqlSugar;
+﻿using Demkin.Blog.Utils.SystemConfig;
+using Serilog;
+using SqlSugar;
 using System;
+using System.Linq;
 
 namespace Demkin.Blog.DbAccess.UnitOfWork
 {
@@ -11,6 +14,15 @@ namespace Demkin.Blog.DbAccess.UnitOfWork
 
         public UnitOfWork(ISqlSugarClient sqlSugarClient)
         {
+            if (SiteInfo.IsDebugSql)
+            {
+                sqlSugarClient.Aop.OnLogExecuting = (sql, p) =>
+                {
+                    Log.Information("Sql语句：" + sql);
+                    Log.Debug("参数：" + string.Join(',', p?.Select(item => item.ParameterName + ":" + item.Value)));
+                };
+            }
+
             _sqlSugarClient = sqlSugarClient;
             _tranCount = 0;
         }

@@ -1,4 +1,5 @@
-﻿using Demkin.Blog.Utils.Help;
+﻿using Demkin.Blog.Utils.ClassExtension;
+using Demkin.Blog.Utils.Help;
 
 namespace Demkin.Blog.Utils.SystemConfig
 {
@@ -10,5 +11,10 @@ namespace Demkin.Blog.Utils.SystemConfig
         public static string ServiceDllName => Appsettings.GetValue("SiteInfo", "ServiceDllName") + ".dll";
 
         public static string RepositoryDllName => Appsettings.GetValue("SiteInfo", "RepositoryDllName") + ".dll";
+
+        /// <summary>
+        /// 是否开启调试SQL
+        /// </summary>
+        public static bool IsDebugSql => Appsettings.GetValue("SiteInfo", "IsDebugSql").ObjToBool();
     }
 }
