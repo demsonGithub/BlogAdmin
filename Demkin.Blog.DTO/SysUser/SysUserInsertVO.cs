@@ -2,7 +2,7 @@
 
 namespace Demkin.Blog.DTO.SysUser
 {
-    public class SysUserInsertVO
+    public class SysUserInsertVo
     {
         /// <summary>
         /// 登录账号

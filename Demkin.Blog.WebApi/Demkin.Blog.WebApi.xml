@@ -16,5 +16,25 @@
             <param name="account">账号</param>
             <returns></returns>
         </member>
+        <member name="T:Demkin.Blog.WebApi.Controllers.UserController">
+            <summary>
+            用户管理
+            </summary>
+        </member>
+        <member name="M:Demkin.Blog.WebApi.Controllers.UserController.#ctor(Microsoft.Extensions.Logging.ILogger{Demkin.Blog.WebApi.Controllers.UserController},Demkin.Blog.IService.ISysUserService)">
+            <summary>
+            构造器
+            </summary>
+            <param name="logger"></param>
+            <param name="sysUserService"></param>
+        </member>
+        <member name="M:Demkin.Blog.WebApi.Controllers.UserController.GetSysUserList(System.Int32,System.String)">
+            <summary>
+            获取用户列表
+            </summary>
+            <param name="currentPage"></param>
+            <param name="key"></param>
+            <returns></returns>
+        </member>
     </members>
 </doc>

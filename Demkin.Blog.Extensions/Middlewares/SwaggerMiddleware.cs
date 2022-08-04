@@ -15,7 +15,7 @@ namespace Demkin.Blog.Extensions.Middlewares
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint($"/swagger/v1/swagger.json", "Cms Api");
+                c.SwaggerEndpoint($"/swagger/v1/swagger.json", "Blog Api");
                 c.RoutePrefix = "api";
             });
         }

@@ -21,7 +21,7 @@ namespace Demkin.Blog.IService.Base
 
         Task<List<TEntity>> GetEntityListAsync(string whereSql, string orderByFiled, int topNum);
 
-        Task<List<TEntity>> GetEntityListAsync(string whereSql, string orderByFiled, int pageIndex, int pageSize);
+        Task<List<TEntity>> GetEntityListAsync(string whereSql, string orderByFiled, int currentPage, int pageSize);
 
         Task<List<TEntity>> GetEntityListAsync(Expression<Func<TEntity, bool>> whereExpression);
 
@@ -29,7 +29,7 @@ namespace Demkin.Blog.IService.Base
 
         Task<List<TEntity>> GetEntityListAsync(Expression<Func<TEntity, bool>> whereExpression, string orderByFiled, int topNum);
 
-        Task<List<TEntity>> GetEntityListAsync(Expression<Func<TEntity, bool>> whereExpression, string orderByFiled, int pageIndex, int pageSize);
+        Task<List<TEntity>> GetEntityListAsync(Expression<Func<TEntity, bool>> whereExpression, string orderByFiled, int currentPage, int pageSize);
 
         #endregion 查询
 
@@ -55,9 +55,9 @@ namespace Demkin.Blog.IService.Base
 
         Task<bool> UpdateAsync(TEntity entity);
 
-        Task<TEntity> UpdateAsync(object id, Func<TEntity, Task> updateAction);
+        Task<int> UpdateAsync(TEntity entity, Expression<Func<TEntity, object>> updateColumns, Expression<Func<TEntity, bool>> updateExpression);
 
-        Task<int> UpdateAsync(Expression<Func<TEntity, bool>> whereExpression, Func<TEntity, Task> updateAction);
+        //Task<int> UpdateAsync(Expression<Func<TEntity, bool>> whereExpression, Func<TEntity, Task> updateAction);
 
         #endregion 修改
 

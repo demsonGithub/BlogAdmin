@@ -31,39 +31,40 @@ namespace Demkin.Blog.Repository.Base
             return await insertEntity.ExecuteReturnEntityAsync();
         }
 
-        public Task<int> AddAsync(List<TEntity> entities)
+        public async Task<int> AddAsync(List<TEntity> entities)
         {
-            throw new NotImplementedException();
+            return await _db.Insertable(entities).ExecuteCommandAsync();
         }
 
-        public Task<int> CountAsync()
+        public async Task<int> CountAsync()
         {
-            throw new NotImplementedException();
+            return await _db.Queryable<TEntity>().CountAsync();
         }
 
-        public Task<int> CountAsync(Expression<Func<TEntity, bool>> whereExpression)
+        public async Task<int> CountAsync(Expression<Func<TEntity, bool>> whereExpression)
         {
-            throw new NotImplementedException();
+            return await _db.Queryable<TEntity>().WhereIF(whereExpression != null, whereExpression).CountAsync();
         }
 
-        public Task<bool> DeleteAsync(object id)
+        public async Task<bool> DeleteAsync(object id)
         {
-            throw new NotImplementedException();
+            return await _db.Deleteable<TEntity>(id).ExecuteCommandHasChangeAsync();
         }
 
-        public Task<bool> DeleteAsync(TEntity entity)
+        public async Task<bool> DeleteAsync(TEntity entity)
         {
-            throw new NotImplementedException();
+            return await _db.Deleteable(entity).ExecuteCommandHasChangeAsync();
         }
 
-        public Task<int> DeleteAsync(Expression<Func<TEntity, bool>> whereExpression)
+        public async Task<int> DeleteAsync(Expression<Func<TEntity, bool>> whereExpression)
         {
-            throw new NotImplementedException();
+            var resultNum = await _db.Deleteable(whereExpression).ExecuteCommandAsync();
+            return resultNum;
         }
 
-        public Task<TEntity> GetEntityAsync(object id)
+        public async Task<TEntity> GetEntityAsync(object id)
         {
-            throw new NotImplementedException();
+            return await _db.Queryable<TEntity>().InSingleAsync(id);
         }
 
         public Task<TEntity> GetEntityAsync(Expression<Func<TEntity, bool>> whereExpresision)
@@ -73,74 +74,74 @@ namespace Demkin.Blog.Repository.Base
             return selectEntity;
         }
 
-        public Task<List<TEntity>> GetEntityListAsync()
+        public async Task<List<TEntity>> GetEntityListAsync()
         {
-            throw new NotImplementedException();
+            return await _db.Queryable<TEntity>().ToListAsync();
         }
 
-        public Task<List<TEntity>> GetEntityListAsync(string whereSql)
+        public async Task<List<TEntity>> GetEntityListAsync(string whereSql)
         {
-            throw new NotImplementedException();
+            return await _db.Queryable<TEntity>().WhereIF(!string.IsNullOrEmpty(whereSql), whereSql).ToListAsync();
         }
 
-        public Task<List<TEntity>> GetEntityListAsync(string whereSql, string orderByFiled)
+        public async Task<List<TEntity>> GetEntityListAsync(string whereSql, string orderByFiled)
         {
-            throw new NotImplementedException();
+            return await _db.Queryable<TEntity>().WhereIF(!string.IsNullOrEmpty(whereSql), whereSql).OrderByIF(!string.IsNullOrEmpty(orderByFiled), orderByFiled).ToListAsync();
         }
 
-        public Task<List<TEntity>> GetEntityListAsync(string whereSql, string orderByFiled, int topNum)
+        public async Task<List<TEntity>> GetEntityListAsync(string whereSql, string orderByFiled, int topNum)
         {
-            throw new NotImplementedException();
+            return await _db.Queryable<TEntity>().WhereIF(!string.IsNullOrEmpty(whereSql), whereSql).OrderByIF(!string.IsNullOrEmpty(orderByFiled), orderByFiled).Take(topNum).ToListAsync();
         }
 
-        public Task<List<TEntity>> GetEntityListAsync(string whereSql, string orderByFiled, int pageIndex, int pageSize)
+        public async Task<List<TEntity>> GetEntityListAsync(string whereSql, string orderByFiled, int currentPage, int pageSize)
         {
-            throw new NotImplementedException();
+            return await _db.Queryable<TEntity>().WhereIF(!string.IsNullOrEmpty(whereSql), whereSql).OrderByIF(!string.IsNullOrEmpty(orderByFiled), orderByFiled).ToPageListAsync(currentPage, pageSize);
         }
 
-        public Task<List<TEntity>> GetEntityListAsync(Expression<Func<TEntity, bool>> whereExpression)
+        public async Task<List<TEntity>> GetEntityListAsync(Expression<Func<TEntity, bool>> whereExpression)
         {
-            throw new NotImplementedException();
+            return await _db.Queryable<TEntity>().WhereIF(whereExpression != null, whereExpression).ToListAsync();
         }
 
-        public Task<List<TEntity>> GetEntityListAsync(Expression<Func<TEntity, bool>> whereExpression, string orderByFiled)
+        public async Task<List<TEntity>> GetEntityListAsync(Expression<Func<TEntity, bool>> whereExpression, string orderByFiled)
         {
-            throw new NotImplementedException();
+            return await _db.Queryable<TEntity>().WhereIF(whereExpression != null, whereExpression).OrderByIF(!string.IsNullOrEmpty(orderByFiled), orderByFiled).ToListAsync();
         }
 
-        public Task<List<TEntity>> GetEntityListAsync(Expression<Func<TEntity, bool>> whereExpression, string orderByFiled, int topNum)
+        public async Task<List<TEntity>> GetEntityListAsync(Expression<Func<TEntity, bool>> whereExpression, string orderByFiled, int topNum)
         {
-            throw new NotImplementedException();
+            return await _db.Queryable<TEntity>().WhereIF(whereExpression != null, whereExpression).OrderByIF(!string.IsNullOrEmpty(orderByFiled), orderByFiled).Take(topNum).ToListAsync();
         }
 
-        public Task<List<TEntity>> GetEntityListAsync(Expression<Func<TEntity, bool>> whereExpression, string orderByFiled, int pageIndex, int pageSize)
+        public async Task<List<TEntity>> GetEntityListAsync(Expression<Func<TEntity, bool>> whereExpression, string orderByFiled, int currentPage, int pageSize)
         {
-            throw new NotImplementedException();
+            return await _db.Queryable<TEntity>().WhereIF(whereExpression != null, whereExpression).OrderByIF(!string.IsNullOrEmpty(orderByFiled), orderByFiled).ToPageListAsync(currentPage, pageSize);
         }
 
-        public Task<bool> IsExist(object id)
+        public async Task<bool> IsExist(object id)
         {
-            throw new NotImplementedException();
+            return await _db.Queryable<TEntity>().InSingleAsync(id) != null;
         }
 
-        public Task<bool> IsExist(Expression<Func<TEntity, bool>> whereExpression)
+        public async Task<bool> IsExist(Expression<Func<TEntity, bool>> whereExpression)
         {
-            throw new NotImplementedException();
+            return await _db.Queryable<TEntity>().WhereIF(whereExpression != null, whereExpression).CountAsync() > 0;
         }
 
-        public Task<bool> UpdateAsync(TEntity entity)
+        public async Task<bool> UpdateAsync(TEntity entity)
         {
-            throw new NotImplementedException();
+            return await _db.Updateable(entity).ExecuteCommandHasChangeAsync();
         }
 
-        public Task<TEntity> UpdateAsync(object id, Func<TEntity, Task> updateAction)
+        public async Task<int> UpdateAsync(TEntity entity, Expression<Func<TEntity, object>> updateColumns, Expression<Func<TEntity, bool>> updateExpression)
         {
-            throw new NotImplementedException();
+            return await _db.Updateable<TEntity>(entity).UpdateColumns(updateColumns).Where(updateExpression).ExecuteCommandAsync();
         }
 
-        public Task<int> UpdateAsync(Expression<Func<TEntity, bool>> whereExpression, Func<TEntity, Task> updateAction)
-        {
-            throw new NotImplementedException();
-        }
+        //public Task<int> UpdateAsync(Expression<Func<TEntity, bool>> whereExpression, Func<TEntity, Task> updateAction)
+        //{
+        //    throw new NotImplementedException();
+        //}
     }
 }

@@ -34,7 +34,6 @@ namespace Demkin.Blog.WebApi.Controllers
         [HttpGet]
         public async Task<ApiResponse<SysUserDto>> GetSysUserInfoTest(string account)
         {
-            _logger.LogInformation("hello");
             try
             {
                 var sysUserBo = await _sysUserService.GetEntityAsync(item => item.LoginAccount == account);
@@ -53,6 +52,42 @@ namespace Demkin.Blog.WebApi.Controllers
                 _logger.LogError(ex, "GetSysUserInfoTest出现异常");
                 return ApiHelper.Failed<SysUserDto>("A0002", ex.Message, null);
             }
+        }
+
+        [HttpGet]
+        public async Task<ApiResponse<SysUser>> GetSysUser()
+        {
+            SysUser entity = await _sysUserService.GetEntityAsync(item => item.LoginAccount == "sysadmin");
+
+            return ApiHelper.Success(entity);
+        }
+
+        [HttpPost]
+        public async Task<ApiResponse<SysUser>> UpdateSysUser()
+        {
+            SysUser entity = await _sysUserService.GetEntityAsync(item => item.LoginAccount == "sysadmin");
+
+            Random random = new Random();
+            entity.Address = "湖北武汉" + random.Next(1, 1000);
+
+            await _sysUserService.UpdateAsync(entity);
+
+            return ApiHelper.Success(entity);
+        }
+
+        [HttpPost]
+        public async Task<ApiResponse<string>> UpdateSysUserList()
+        {
+            SysUser entity = new SysUser
+            {
+            };
+
+            Random random = new Random();
+            entity.Address = "湖北武汉" + random.Next(1, 1000);
+
+            await _sysUserService.UpdateAsync(entity, obj => new { obj.Address }, item => item.Id > 0);
+
+            return ApiHelper.Success("ok");
         }
     }
 }

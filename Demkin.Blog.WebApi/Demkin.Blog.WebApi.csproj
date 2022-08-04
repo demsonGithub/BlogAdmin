@@ -19,7 +19,6 @@
     <ProjectReference Include="..\Demkin.Blog.DTO\Demkin.Blog.DTO.csproj" />
     <ProjectReference Include="..\Demkin.Blog.Extensions\Demkin.Blog.Extensions.csproj" />
     <ProjectReference Include="..\Demkin.Blog.IService\Demkin.Blog.IService.csproj" />
-    <ProjectReference Include="..\Demkin.Blog.Service\Demkin.Blog.Service.csproj" />
   </ItemGroup>
 
 
