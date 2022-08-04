@@ -2,6 +2,7 @@ using Autofac.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Serilog;
@@ -22,13 +23,13 @@ namespace Demkin.Blog.WebApi
                 if (environment == "Development")
                 {
                     config = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory())
-                        .AddJsonFile($"appsettings.{environment}.json", optional: true, reloadOnChange: true).Build();
+                        .AddJsonFile(AppDomain.CurrentDomain.BaseDirectory + $"\\appsettings.{environment}.json", optional: true, reloadOnChange: true).Build();
                 }
                 else
                 {
                     config = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory())
-                        .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
-                        .AddJsonFile($"appsettings.{environment}.json", optional: true, reloadOnChange: true)
+                        .AddJsonFile(AppDomain.CurrentDomain.BaseDirectory + "\\appsettings.json", optional: true, reloadOnChange: true)
+                        .AddJsonFile(AppDomain.CurrentDomain.BaseDirectory + $"\\appsettings.{environment}.json", optional: true, reloadOnChange: true)
                         .Build();
                 }
                 Log.Logger = new LoggerConfiguration()
@@ -36,8 +37,7 @@ namespace Demkin.Blog.WebApi
                          .CreateLogger();
 
                 var builder = CreateHostBuilder(args);
-                // 修改默认的日志框架
-                builder.UseSerilog();
+
                 // 更换依赖注入容器
                 builder.UseServiceProviderFactory(new AutofacServiceProviderFactory());
 
@@ -47,6 +47,9 @@ namespace Demkin.Blog.WebApi
                     // Nuget: Microsoft.Extensions.Hosting.WindowsServices
                     builder.UseWindowsService();
                 }
+                // 修改默认的日志框架
+                builder.UseSerilog();
+
                 var host = builder.Build();
 
                 host.Run();
