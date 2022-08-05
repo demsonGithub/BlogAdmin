@@ -17,19 +17,19 @@ namespace Demkin.Blog.Repository.Base
 
         Task<List<TEntity>> GetEntityListAsync(string whereSql);
 
-        Task<List<TEntity>> GetEntityListAsync(string whereSql, string orderByFiled);
+        Task<List<TEntity>> GetEntityListAsync(string whereSql, string orderByFiled, bool isAsc = true);
 
-        Task<List<TEntity>> GetEntityListAsync(string whereSql, string orderByFiled, int topNum);
+        Task<List<TEntity>> GetEntityListAsync(string whereSql, string orderByFiled, int topNum, bool isAsc = true);
 
-        Task<List<TEntity>> GetEntityListAsync(string whereSql, string orderByFiled, int currentPage, int pageSize);
+        Task<List<TEntity>> GetEntityListAsync(string whereSql, string orderByFiled, int currentPage, int pageSize, bool isAsc = true);
 
         Task<List<TEntity>> GetEntityListAsync(Expression<Func<TEntity, bool>> whereExpression);
 
-        Task<List<TEntity>> GetEntityListAsync(Expression<Func<TEntity, bool>> whereExpression, string orderByFiled);
+        Task<List<TEntity>> GetEntityListAsync(Expression<Func<TEntity, bool>> whereExpression, string orderByFiled, bool isAsc = true);
 
-        Task<List<TEntity>> GetEntityListAsync(Expression<Func<TEntity, bool>> whereExpression, string orderByFiled, int topNum);
+        Task<List<TEntity>> GetEntityListAsync(Expression<Func<TEntity, bool>> whereExpression, string orderByFiled, int topNum, bool isAsc = true);
 
-        Task<List<TEntity>> GetEntityListAsync(Expression<Func<TEntity, bool>> whereExpression, string orderByFiled, int currentPage, int pageSize);
+        Task<List<TEntity>> GetEntityListAsync(Expression<Func<TEntity, bool>> whereExpression, string orderByFiled, int currentPage, int pageSize, bool isAsc = true);
 
         #endregion 查询
 
@@ -55,9 +55,7 @@ namespace Demkin.Blog.Repository.Base
 
         Task<bool> UpdateAsync(TEntity entity);
 
-        Task<int> UpdateAsync(TEntity entity, Expression<Func<TEntity, object>> updateColumns, Expression<Func<TEntity, bool>> updateExpression);
-
-        //Task<int> UpdateAsync(Expression<Func<TEntity, bool>> whereExpression, Func<TEntity, Task> updateAction);
+        Task<int> UpdateAsync(Expression<Func<TEntity, TEntity>> updateColumns, Expression<Func<TEntity, bool>> updateExpression);
 
         #endregion 修改
 

@@ -71,19 +71,19 @@ namespace Demkin.Blog.Service.Base
             return await _baseRepository.GetEntityListAsync(whereSql);
         }
 
-        public async Task<List<TEntity>> GetEntityListAsync(string whereSql, string orderByFiled)
+        public async Task<List<TEntity>> GetEntityListAsync(string whereSql, string orderByFiled, bool isAsc = true)
         {
-            return await _baseRepository.GetEntityListAsync(whereSql, orderByFiled);
+            return await _baseRepository.GetEntityListAsync(whereSql, orderByFiled, isAsc);
         }
 
-        public async Task<List<TEntity>> GetEntityListAsync(string whereSql, string orderByFiled, int topNum)
+        public async Task<List<TEntity>> GetEntityListAsync(string whereSql, string orderByFiled, int topNum, bool isAsc = true)
         {
-            return await _baseRepository.GetEntityListAsync(whereSql, orderByFiled, topNum);
+            return await _baseRepository.GetEntityListAsync(whereSql, orderByFiled, topNum, isAsc);
         }
 
-        public async Task<List<TEntity>> GetEntityListAsync(string whereSql, string orderByFiled, int currentPage, int pageSize)
+        public async Task<List<TEntity>> GetEntityListAsync(string whereSql, string orderByFiled, int currentPage, int pageSize, bool isAsc = true)
         {
-            return await _baseRepository.GetEntityListAsync(whereSql, orderByFiled, currentPage, pageSize);
+            return await _baseRepository.GetEntityListAsync(whereSql, orderByFiled, currentPage, pageSize, isAsc);
         }
 
         public async Task<List<TEntity>> GetEntityListAsync(Expression<Func<TEntity, bool>> whereExpression)
@@ -91,19 +91,19 @@ namespace Demkin.Blog.Service.Base
             return await _baseRepository.GetEntityListAsync(whereExpression);
         }
 
-        public async Task<List<TEntity>> GetEntityListAsync(Expression<Func<TEntity, bool>> whereExpression, string orderByFiled)
+        public async Task<List<TEntity>> GetEntityListAsync(Expression<Func<TEntity, bool>> whereExpression, string orderByFiled, bool isAsc = true)
         {
-            return await _baseRepository.GetEntityListAsync(whereExpression, orderByFiled);
+            return await _baseRepository.GetEntityListAsync(whereExpression, orderByFiled, isAsc);
         }
 
-        public async Task<List<TEntity>> GetEntityListAsync(Expression<Func<TEntity, bool>> whereExpression, string orderByFiled, int topNum)
+        public async Task<List<TEntity>> GetEntityListAsync(Expression<Func<TEntity, bool>> whereExpression, string orderByFiled, int topNum, bool isAsc = true)
         {
-            return await _baseRepository.GetEntityListAsync(whereExpression, orderByFiled, topNum);
+            return await _baseRepository.GetEntityListAsync(whereExpression, orderByFiled, topNum, isAsc);
         }
 
-        public async Task<List<TEntity>> GetEntityListAsync(Expression<Func<TEntity, bool>> whereExpression, string orderByFiled, int currentPage, int pageSize)
+        public async Task<List<TEntity>> GetEntityListAsync(Expression<Func<TEntity, bool>> whereExpression, string orderByFiled, int currentPage, int pageSize, bool isAsc = true)
         {
-            return await _baseRepository.GetEntityListAsync(whereExpression, orderByFiled, currentPage, pageSize);
+            return await _baseRepository.GetEntityListAsync(whereExpression, orderByFiled, currentPage, pageSize, isAsc);
         }
 
         public async Task<bool> IsExist(object id)
@@ -121,14 +121,9 @@ namespace Demkin.Blog.Service.Base
             return await _baseRepository.UpdateAsync(entity);
         }
 
-        public async Task<int> UpdateAsync(TEntity entity, Expression<Func<TEntity, object>> updateColumns, Expression<Func<TEntity, bool>> updateExpression)
+        public async Task<int> UpdateAsync(Expression<Func<TEntity, TEntity>> updateColumns, Expression<Func<TEntity, bool>> updateExpression)
         {
-            return await _baseRepository.UpdateAsync(entity, updateColumns, updateExpression);
+            return await _baseRepository.UpdateAsync(updateColumns, updateExpression);
         }
-
-        //public async Task<int> UpdateAsync(Expression<Func<TEntity, bool>> whereExpression, Func<TEntity, Task> updateAction)
-        //{
-        //    return await _baseRepository.UpdateAsync(whereExpression, updateAction);
-        //}
     }
 }

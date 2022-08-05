@@ -84,19 +84,19 @@ namespace Demkin.Blog.Repository.Base
             return await _db.Queryable<TEntity>().WhereIF(!string.IsNullOrEmpty(whereSql), whereSql).ToListAsync();
         }
 
-        public async Task<List<TEntity>> GetEntityListAsync(string whereSql, string orderByFiled)
+        public async Task<List<TEntity>> GetEntityListAsync(string whereSql, string orderByFiled, bool isAsc = true)
         {
-            return await _db.Queryable<TEntity>().WhereIF(!string.IsNullOrEmpty(whereSql), whereSql).OrderByIF(!string.IsNullOrEmpty(orderByFiled), orderByFiled).ToListAsync();
+            return await _db.Queryable<TEntity>().WhereIF(!string.IsNullOrEmpty(whereSql), whereSql).OrderByIF(!string.IsNullOrEmpty(orderByFiled), orderByFiled + (isAsc ? " asc" : " desc")).ToListAsync();
         }
 
-        public async Task<List<TEntity>> GetEntityListAsync(string whereSql, string orderByFiled, int topNum)
+        public async Task<List<TEntity>> GetEntityListAsync(string whereSql, string orderByFiled, int topNum, bool isAsc = true)
         {
-            return await _db.Queryable<TEntity>().WhereIF(!string.IsNullOrEmpty(whereSql), whereSql).OrderByIF(!string.IsNullOrEmpty(orderByFiled), orderByFiled).Take(topNum).ToListAsync();
+            return await _db.Queryable<TEntity>().WhereIF(!string.IsNullOrEmpty(whereSql), whereSql).OrderByIF(!string.IsNullOrEmpty(orderByFiled), orderByFiled + (isAsc ? " asc" : " desc")).Take(topNum).ToListAsync();
         }
 
-        public async Task<List<TEntity>> GetEntityListAsync(string whereSql, string orderByFiled, int currentPage, int pageSize)
+        public async Task<List<TEntity>> GetEntityListAsync(string whereSql, string orderByFiled, int currentPage, int pageSize, bool isAsc = true)
         {
-            return await _db.Queryable<TEntity>().WhereIF(!string.IsNullOrEmpty(whereSql), whereSql).OrderByIF(!string.IsNullOrEmpty(orderByFiled), orderByFiled).ToPageListAsync(currentPage, pageSize);
+            return await _db.Queryable<TEntity>().WhereIF(!string.IsNullOrEmpty(whereSql), whereSql).OrderByIF(!string.IsNullOrEmpty(orderByFiled), orderByFiled + (isAsc ? " asc" : " desc")).ToPageListAsync(currentPage, pageSize);
         }
 
         public async Task<List<TEntity>> GetEntityListAsync(Expression<Func<TEntity, bool>> whereExpression)
@@ -104,19 +104,19 @@ namespace Demkin.Blog.Repository.Base
             return await _db.Queryable<TEntity>().WhereIF(whereExpression != null, whereExpression).ToListAsync();
         }
 
-        public async Task<List<TEntity>> GetEntityListAsync(Expression<Func<TEntity, bool>> whereExpression, string orderByFiled)
+        public async Task<List<TEntity>> GetEntityListAsync(Expression<Func<TEntity, bool>> whereExpression, string orderByFiled, bool isAsc = true)
         {
-            return await _db.Queryable<TEntity>().WhereIF(whereExpression != null, whereExpression).OrderByIF(!string.IsNullOrEmpty(orderByFiled), orderByFiled).ToListAsync();
+            return await _db.Queryable<TEntity>().WhereIF(whereExpression != null, whereExpression).OrderByIF(!string.IsNullOrEmpty(orderByFiled), orderByFiled + (isAsc ? " asc" : " desc")).ToListAsync();
         }
 
-        public async Task<List<TEntity>> GetEntityListAsync(Expression<Func<TEntity, bool>> whereExpression, string orderByFiled, int topNum)
+        public async Task<List<TEntity>> GetEntityListAsync(Expression<Func<TEntity, bool>> whereExpression, string orderByFiled, int topNum, bool isAsc = true)
         {
-            return await _db.Queryable<TEntity>().WhereIF(whereExpression != null, whereExpression).OrderByIF(!string.IsNullOrEmpty(orderByFiled), orderByFiled).Take(topNum).ToListAsync();
+            return await _db.Queryable<TEntity>().WhereIF(whereExpression != null, whereExpression).OrderByIF(!string.IsNullOrEmpty(orderByFiled), orderByFiled + (isAsc ? " asc" : " desc")).Take(topNum).ToListAsync();
         }
 
-        public async Task<List<TEntity>> GetEntityListAsync(Expression<Func<TEntity, bool>> whereExpression, string orderByFiled, int currentPage, int pageSize)
+        public async Task<List<TEntity>> GetEntityListAsync(Expression<Func<TEntity, bool>> whereExpression, string orderByFiled, int currentPage, int pageSize, bool isAsc = true)
         {
-            return await _db.Queryable<TEntity>().WhereIF(whereExpression != null, whereExpression).OrderByIF(!string.IsNullOrEmpty(orderByFiled), orderByFiled).ToPageListAsync(currentPage, pageSize);
+            return await _db.Queryable<TEntity>().WhereIF(whereExpression != null, whereExpression).OrderByIF(!string.IsNullOrEmpty(orderByFiled), orderByFiled + (isAsc ? " asc" : " desc")).ToPageListAsync(currentPage, pageSize);
         }
 
         public async Task<bool> IsExist(object id)
@@ -134,14 +134,9 @@ namespace Demkin.Blog.Repository.Base
             return await _db.Updateable(entity).ExecuteCommandHasChangeAsync();
         }
 
-        public async Task<int> UpdateAsync(TEntity entity, Expression<Func<TEntity, object>> updateColumns, Expression<Func<TEntity, bool>> updateExpression)
+        public async Task<int> UpdateAsync(Expression<Func<TEntity, TEntity>> updateColumns, Expression<Func<TEntity, bool>> updateExpression)
         {
-            return await _db.Updateable<TEntity>(entity).UpdateColumns(updateColumns).Where(updateExpression).ExecuteCommandAsync();
+            return await _db.Updateable<TEntity>().SetColumns(updateColumns).Where(updateExpression).ExecuteCommandAsync();
         }
-
-        //public Task<int> UpdateAsync(Expression<Func<TEntity, bool>> whereExpression, Func<TEntity, Task> updateAction)
-        //{
-        //    throw new NotImplementedException();
-        //}
     }
 }

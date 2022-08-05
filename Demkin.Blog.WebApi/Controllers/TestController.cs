@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Demkin.Blog.WebApi.Controllers
@@ -62,6 +64,27 @@ namespace Demkin.Blog.WebApi.Controllers
             return ApiHelper.Success(entity);
         }
 
+        [HttpGet]
+        public async Task<ApiResponse<List<SysUserDetailDto>>> GetSysUserList()
+        {
+            string sqlWhere = "";
+
+            string orderByFiled = nameof(SysUserDetailDto.Age);
+
+            var sysUsersDo = await _sysUserService.GetEntityListAsync(sqlWhere, orderByFiled);
+
+            var result = (from sysUser in sysUsersDo
+                          select new SysUserDetailDto
+                          {
+                              Id = sysUser.Id.ToString(),
+                              NickName = sysUser.NickName,
+                              Age = sysUser.Age,
+                              CreateTime = sysUser.CreateTime
+                          }).ToList();
+
+            return ApiHelper.Success(result);
+        }
+
         [HttpPost]
         public async Task<ApiResponse<SysUser>> UpdateSysUser()
         {
@@ -78,14 +101,10 @@ namespace Demkin.Blog.WebApi.Controllers
         [HttpPost]
         public async Task<ApiResponse<string>> UpdateSysUserList()
         {
-            SysUser entity = new SysUser
-            {
-            };
-
             Random random = new Random();
-            entity.Address = "湖北武汉" + random.Next(1, 1000);
+            var targetValue = "湖北武汉" + random.Next(1, 1000);
 
-            await _sysUserService.UpdateAsync(entity, obj => new { obj.Address }, item => item.Id > 0);
+            await _sysUserService.UpdateAsync(obj => new SysUser { Address = targetValue }, item => item.Id > 0);
 
             return ApiHelper.Success("ok");
         }
