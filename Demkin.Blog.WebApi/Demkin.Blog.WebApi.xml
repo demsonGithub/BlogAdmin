@@ -9,7 +9,7 @@
             权限认证
             </summary>
         </member>
-        <member name="M:Demkin.Blog.WebApi.Controllers.AuthController.GetErrorCodeDesciption">
+        <member name="M:Demkin.Blog.WebApi.Controllers.AuthController.GetErrorCodeDesciption(System.String)">
             <summary>
             获取错误码的注释
             </summary>

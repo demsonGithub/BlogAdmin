@@ -35,12 +35,12 @@ namespace Demkin.Blog.WebApi.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public async Task<ApiResponse<List<ApiErrorCodeDto>>> GetErrorCodeDesciption()
+        public async Task<IActionResult> GetErrorCodeDesciption(string fileSuffix)
         {
             string filePath = Path.Combine(AppContext.BaseDirectory, SiteInfo.DtoDllName + ".xml");
             if (!System.IO.File.Exists(filePath))
             {
-                return ApiHelper.Failed<List<ApiErrorCodeDto>>(ApiErrorCode.Server_Resource.GetDescription(), "注释文档文件不存在", null);
+                return NotFound(filePath);
             }
             string fullName = SiteInfo.DtoDllName + ".ApiErrorCode";
 
@@ -78,13 +78,14 @@ namespace Demkin.Blog.WebApi.Controllers
                 }
                 DataTable dt = ListToTable(errCodeDtoList);
 
-                NPOIHelper.DataTableToExcel(@"D:\\test.xls", dt);
-
-                return ApiHelper.Success(errCodeDtoList);
+                //var contentBytes = NPOIHelper.DataTableToExcel(dt, fileSuffix);
+                //return File(contentBytes, "application/octet-stream", "test.xls");
+                var contentBytes = PdfHelper.DataTableToPDF(dt, 18);
+                return File(contentBytes, "application/octet-stream", "test.pdf");
             }
             catch
             {
-                return ApiHelper.Failed<List<ApiErrorCodeDto>>(ApiErrorCode.Server_Error.GetDescription(), "出错了", null);
+                return NotFound();
             }
         }
 

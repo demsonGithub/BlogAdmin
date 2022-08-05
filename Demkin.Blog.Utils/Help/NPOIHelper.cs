@@ -1,6 +1,7 @@
 ﻿using Demkin.Blog.Utils.ClassExtension;
 using NPOI.HSSF.UserModel;
 using NPOI.SS.UserModel;
+using NPOI.XSSF.UserModel;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -115,69 +116,51 @@ namespace Demkin.Blog.Utils.Help
         /// <summary>
         /// datatable转excel
         /// </summary>
-        /// <param name="fileName"></param>
-        /// <param name="data"></param>
+        /// <param name="dt"></param>
+        /// <param name="filePath"></param>
         /// <returns></returns>
-        public static byte[] DataTableToExcel(string fileName, DataTable data)
+        public static byte[] DataTableToExcel(DataTable dt, string fileSuffix)
         {
-            var workbook = new HSSFWorkbook();
-            //创建sheet
-            var sheet = workbook.CreateSheet(fileName);
-            sheet.DefaultColumnWidth = 20;
-            sheet.ForceFormulaRecalculation = true;
-
-            //标题列样式
-            var headFont = workbook.CreateFont();
-            headFont.IsBold = true;
-            var headStyle = workbook.CreateCellStyle();
-            headStyle.Alignment = HorizontalAlignment.Center;
-            headStyle.BorderBottom = BorderStyle.Thin;
-            headStyle.BorderLeft = BorderStyle.Thin;
-            headStyle.BorderRight = BorderStyle.Thin;
-            headStyle.BorderTop = BorderStyle.Thin;
-            headStyle.SetFont(headFont);
-            //内容列样式
-            var cellStyle = workbook.CreateCellStyle();
-            cellStyle.BorderBottom = BorderStyle.Thin;
-            cellStyle.BorderLeft = BorderStyle.Thin;
-            cellStyle.BorderRight = BorderStyle.Thin;
-            cellStyle.BorderTop = BorderStyle.Thin;
-
-            //设置表头
-            var rowTitle = sheet.CreateRow(0);
-            for (int k = 0; k < data.Columns.Count; k++)
+            IWorkbook workbook;
+            fileSuffix = fileSuffix.ToLower();
+            if (fileSuffix == "xlsx")
             {
-                var ctIndex = rowTitle.CreateCell(0);
-                ctIndex.SetCellValue("序号");
-                ctIndex.CellStyle = headStyle;
-                var ctRow = rowTitle.CreateCell(k + 1);
-                ctRow.SetCellValue(data.Columns[k].ColumnName);
-                ctRow.CellStyle = headStyle;
+                workbook = new XSSFWorkbook();
             }
-
-            //设置表内容
-            for (int i = 1; i <= data.Rows.Count; i++)
+            else if (fileSuffix == "xls")
             {
-                var row = sheet.CreateRow(i);
-                var cellIndex = row.CreateCell(0);
-                cellIndex.SetCellValue(i);
-                cellIndex.CellStyle = headStyle;
-                for (int j = 1; j <= data.Columns.Count; j++)
+                workbook = new HSSFWorkbook();
+            }
+            else
+            {
+                workbook = null;
+            }
+            if (workbook == null) { return null; }
+
+            ISheet sheet = string.IsNullOrEmpty(dt.TableName) ? workbook.CreateSheet("Sheet1") : workbook.CreateSheet(dt.TableName);
+            // 表头
+            IRow row = sheet.CreateRow(0);
+            for (int i = 0; i < dt.Columns.Count; i++)
+            {
+                ICell cell = row.CreateCell(i);
+                cell.SetCellValue(dt.Columns[i].ColumnName);
+            }
+            // 填充数据
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                IRow row1 = sheet.CreateRow(i + 1);
+                for (int j = 0; j < dt.Columns.Count; j++)
                 {
-                    var cell = row.CreateCell(j);
-                    cell.SetCellValue(data.Rows[i - 1][j - 1].ToString());
-                    cell.CellStyle = headStyle;
+                    ICell cell = row1.CreateCell(j);
+                    cell.SetCellValue(dt.Rows[i][j].ToString());
                 }
             }
-            //获取字节序列
-            using (MemoryStream ms = new MemoryStream())
-            {
-                workbook.Write(ms);
-                byte[] buffer = new byte[ms.Length];
-                buffer = ms.ToArray();
-                ms.Close();
-                return buffer;
-            }
+            // 转换为字节数组
+            MemoryStream stream = new MemoryStream();
+            workbook.Write(stream);
+            var buffer = stream.ToArray();
+
+            return buffer;
         }
     }
 }
