@@ -4,6 +4,25 @@
         <name>Demkin.Blog.WebApi</name>
     </assembly>
     <members>
+        <member name="T:Demkin.Blog.WebApi.Controllers.AuthController">
+            <summary>
+            权限认证
+            </summary>
+        </member>
+        <member name="M:Demkin.Blog.WebApi.Controllers.AuthController.GetErrorCodeDesciption">
+            <summary>
+            获取错误码的注释
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Demkin.Blog.WebApi.Controllers.AuthController.GetJwtToken(System.String,System.String)">
+            <summary>
+            登录获取token信息
+            </summary>
+            <param name="account">账号</param>
+            <param name="password">密码</param>
+            <returns></returns>
+        </member>
         <member name="T:Demkin.Blog.WebApi.Controllers.TestController">
             <summary>
             测试用

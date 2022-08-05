@@ -30,12 +30,12 @@ namespace Demkin.Blog.WebApi
             {
                 //修改属性名称的序列化方式，首字母小写，即驼峰样式
                 options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+                //如果属性名不希望驼峰样式，那就使用默认，然后在返回实体上标注，eg：[Newtonsoft.Json.JsonProperty("code")]
+                //options.SerializerSettings.ContractResolver = new DefaultContractResolver();
                 //忽略循环引用
                 options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
                 //设置时间格式
                 options.SerializerSettings.DateFormatString = "yyyy-MM-dd HH:mm:ss";
-                //解决命名不一致问题
-                options.SerializerSettings.ContractResolver = new DefaultContractResolver();
                 //忽略空值处理
                 //options.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
             });

@@ -4,6 +4,345 @@
         <name>Demkin.Blog.DTO</name>
     </assembly>
     <members>
+        <member name="T:Demkin.Blog.DTO.ApiErrorCode">
+            <summary>
+            Ali错误码规范,五位组成
+            1. 1开头代表用户端错误
+            2. 2开头代表当前系统异常
+            3. 3开头代表第三方服务接口异常
+            4. 若无法确定具体异常，选择宏观错误码
+            </summary>
+        </member>
+        <member name="F:Demkin.Blog.DTO.ApiErrorCode.Success">
+            <summary>
+            成功
+            </summary>
+        </member>
+        <member name="F:Demkin.Blog.DTO.ApiErrorCode.Client_Error">
+            <summary>
+            客户端一级宏观错误
+            </summary>
+        </member>
+        <member name="F:Demkin.Blog.DTO.ApiErrorCode.Client_Register">
+            <summary>
+            注册二级宏观错误
+            </summary>
+        </member>
+        <member name="F:Demkin.Blog.DTO.ApiErrorCode.Client_Register_NoAgreement">
+            <summary>
+            用户未同意隐私协议
+            </summary>
+        </member>
+        <member name="F:Demkin.Blog.DTO.ApiErrorCode.Client_Register_Limited">
+            <summary>
+            注册受到限制
+            </summary>
+        </member>
+        <member name="F:Demkin.Blog.DTO.ApiErrorCode.Client_Register_AccountVerifyFailed">
+            <summary>
+            用户名校验失败
+            </summary>
+        </member>
+        <member name="F:Demkin.Blog.DTO.ApiErrorCode.Client_Register_AccountHasExist">
+            <summary>
+            用户名已存在
+            </summary>
+        </member>
+        <member name="F:Demkin.Blog.DTO.ApiErrorCode.Client_Register_AccountSensitiveWord">
+            <summary>
+            用户名包含敏感词
+            </summary>
+        </member>
+        <member name="F:Demkin.Blog.DTO.ApiErrorCode.Client_Register_AccountSpecificSymbol">
+            <summary>
+            用户名包含特殊字符
+            </summary>
+        </member>
+        <member name="F:Demkin.Blog.DTO.ApiErrorCode.Client_Register_PwdVerifyFailed">
+            <summary>
+            密码校验失败
+            </summary>
+        </member>
+        <member name="F:Demkin.Blog.DTO.ApiErrorCode.Client_Register_PwdLengthShort">
+            <summary>
+            密码长度不够
+            </summary>
+        </member>
+        <member name="F:Demkin.Blog.DTO.ApiErrorCode.Client_Register_PwdStrongShort">
+            <summary>
+            密码强度不够
+            </summary>
+        </member>
+        <member name="F:Demkin.Blog.DTO.ApiErrorCode.Client_Register_VerifyCodeErr">
+            <summary>
+            校验码输入错误
+            </summary>
+        </member>
+        <member name="F:Demkin.Blog.DTO.ApiErrorCode.Client_Register_MsgVerifyCodeErr">
+            <summary>
+            短信校验码输入错误
+            </summary>
+        </member>
+        <member name="F:Demkin.Blog.DTO.ApiErrorCode.Client_Register_EmailVerifyCodeErr">
+            <summary>
+            邮件校验码输入错误
+            </summary>
+        </member>
+        <member name="F:Demkin.Blog.DTO.ApiErrorCode.Client_Register_Certificate">
+            <summary>
+            用户证件异常
+            </summary>
+        </member>
+        <member name="F:Demkin.Blog.DTO.ApiErrorCode.Client_Register_UserInfo">
+            <summary>
+            用户基本信息校验失败
+            </summary>
+        </member>
+        <member name="F:Demkin.Blog.DTO.ApiErrorCode.Client_Register_UserPhone">
+            <summary>
+            手机格式校验失败
+            </summary>
+        </member>
+        <member name="F:Demkin.Blog.DTO.ApiErrorCode.Client_Login">
+            <summary>
+            登录二级宏观错误码
+            </summary>
+        </member>
+        <member name="F:Demkin.Blog.DTO.ApiErrorCode.Client_Login_AccountNotExist">
+            <summary>
+            用户账户不存在
+            </summary>
+        </member>
+        <member name="F:Demkin.Blog.DTO.ApiErrorCode.Client_Login_AccountFreeze">
+            <summary>
+            账户不存在
+            </summary>
+        </member>
+        <member name="F:Demkin.Blog.DTO.ApiErrorCode.Client_Login_PwdErr">
+            <summary>
+            密码错误
+            </summary>
+        </member>
+        <member name="F:Demkin.Blog.DTO.ApiErrorCode.Client_Login_PwdCountLimit">
+            <summary>
+            密码错误超过限制
+            </summary>
+        </member>
+        <member name="F:Demkin.Blog.DTO.ApiErrorCode.Client_Login_IdentityVerifyFailed">
+            <summary>
+            身份验证失败
+            </summary>
+        </member>
+        <member name="F:Demkin.Blog.DTO.ApiErrorCode.Client_Login_TokenHasExpired">
+            <summary>
+            登录已过期
+            </summary>
+        </member>
+        <member name="F:Demkin.Blog.DTO.ApiErrorCode.Client_Login_VerifyCodeErr">
+            <summary>
+            登录验证码错误
+            </summary>
+        </member>
+        <member name="F:Demkin.Blog.DTO.ApiErrorCode.Client_Auth">
+            <summary>
+            访问权限二级宏观错误码
+            </summary>
+        </member>
+        <member name="F:Demkin.Blog.DTO.ApiErrorCode.Client_Auth_UnAuthorized">
+            <summary>
+            访问未授权
+            </summary>
+        </member>
+        <member name="F:Demkin.Blog.DTO.ApiErrorCode.Client_Auth_IsLimited">
+            <summary>
+            因访问对象隐私设置被拦截
+            </summary>
+        </member>
+        <member name="F:Demkin.Blog.DTO.ApiErrorCode.Client_Auth_Expired">
+            <summary>
+            授权已过期
+            </summary>
+        </member>
+        <member name="F:Demkin.Blog.DTO.ApiErrorCode.Client_Auth_NoPermission">
+            <summary>
+            用户账户不存在
+            </summary>
+        </member>
+        <member name="F:Demkin.Blog.DTO.ApiErrorCode.Client_RequestParam">
+            <summary>
+            请求参数二级宏观错误码
+            </summary>
+        </member>
+        <member name="F:Demkin.Blog.DTO.ApiErrorCode.Client_RequestParam_Null">
+            <summary>
+            请求必填参数为空
+            </summary>
+        </member>
+        <member name="F:Demkin.Blog.DTO.ApiErrorCode.Client_RequestParam_OutOfRange">
+            <summary>
+            请求参数值超出允许的范围
+            </summary>
+        </member>
+        <member name="F:Demkin.Blog.DTO.ApiErrorCode.Client_RequestParam_FormatNotMatch">
+            <summary>
+            参数格式不匹配
+            </summary>
+        </member>
+        <member name="F:Demkin.Blog.DTO.ApiErrorCode.Client_RequestParam_NotFit">
+            <summary>
+            用户输入内容非法
+            </summary>
+        </member>
+        <member name="F:Demkin.Blog.DTO.ApiErrorCode.Client_RequestParam_OperateErr">
+            <summary>
+            操作异常
+            </summary>
+        </member>
+        <member name="F:Demkin.Blog.DTO.ApiErrorCode.Client_RequestParam_PayTimeout">
+            <summary>
+            支付超时
+            </summary>
+        </member>
+        <member name="F:Demkin.Blog.DTO.ApiErrorCode.Client_RequestServer">
+            <summary>
+            请求服务二级宏观错误码
+            </summary>
+        </member>
+        <member name="F:Demkin.Blog.DTO.ApiErrorCode.Client_RequestServer_CountLimit">
+            <summary>
+            请求次数超出限制
+            </summary>
+        </member>
+        <member name="F:Demkin.Blog.DTO.ApiErrorCode.Client_Resource">
+            <summary>
+            资源异常二级宏观错误码
+            </summary>
+        </member>
+        <member name="F:Demkin.Blog.DTO.ApiErrorCode.Client_Resource_BalanceNotEnough">
+            <summary>
+            账户余额不足
+            </summary>
+        </member>
+        <member name="F:Demkin.Blog.DTO.ApiErrorCode.Client_UploadFile">
+            <summary>
+            上传文件二级宏观错误码
+            </summary>
+        </member>
+        <member name="F:Demkin.Blog.DTO.ApiErrorCode.Client_UploadFile_TypeNotMatch">
+            <summary>
+            上传文件类型不匹配
+            </summary>
+        </member>
+        <member name="F:Demkin.Blog.DTO.ApiErrorCode.Client_UploadFile_FileSizeTooLarge">
+            <summary>
+            上传文件太大
+            </summary>
+        </member>
+        <member name="F:Demkin.Blog.DTO.ApiErrorCode.Client_Version">
+            <summary>
+            当前版本异常二级宏观错误码
+            </summary>
+        </member>
+        <member name="F:Demkin.Blog.DTO.ApiErrorCode.Client_Privacy">
+            <summary>
+            隐私未授权二级宏观错误码
+            </summary>
+        </member>
+        <member name="F:Demkin.Blog.DTO.ApiErrorCode.Client_Privacy_NotSigned">
+            <summary>
+            隐私未签署
+            </summary>
+        </member>
+        <member name="F:Demkin.Blog.DTO.ApiErrorCode.Client_Privacy_Camera">
+            <summary>
+            摄像头未授权
+            </summary>
+        </member>
+        <member name="F:Demkin.Blog.DTO.ApiErrorCode.Client_Equipment">
+            <summary>
+            设备异常二级宏观错误码
+            </summary>
+        </member>
+        <member name="F:Demkin.Blog.DTO.ApiErrorCode.Client_Equipment_Camera">
+            <summary>
+            相机异常
+            </summary>
+        </member>
+        <member name="F:Demkin.Blog.DTO.ApiErrorCode.Server_Error">
+            <summary>
+            系统执行出错，一级宏观错误
+            </summary>
+        </member>
+        <member name="F:Demkin.Blog.DTO.ApiErrorCode.Server_ExecuteTimeout">
+            <summary>
+            执行超时，二级宏观错误
+            </summary>
+        </member>
+        <member name="F:Demkin.Blog.DTO.ApiErrorCode.Server_DisasterTrigger">
+            <summary>
+            容灾功能被触发，二级宏观错误
+            </summary>
+        </member>
+        <member name="F:Demkin.Blog.DTO.ApiErrorCode.Server_DisasterTrigger_CurrentLimit">
+            <summary>
+            系统限流
+            </summary>
+        </member>
+        <member name="F:Demkin.Blog.DTO.ApiErrorCode.Server_Resource">
+            <summary>
+            资源异常，二级宏观错误
+            </summary>
+        </member>
+        <member name="F:Demkin.Blog.DTO.ApiErrorCode.Server_Resource_Deplete">
+            <summary>
+            资源耗尽
+            </summary>
+        </member>
+        <member name="F:Demkin.Blog.DTO.ApiErrorCode.ThirdParty_Error">
+            <summary>
+            第三方出错
+            </summary>
+        </member>
+        <member name="F:Demkin.Blog.DTO.ApiErrorCode.ThirdParty_Middleware">
+            <summary>
+            中间件,一级宏观错误
+            </summary>
+        </member>
+        <member name="F:Demkin.Blog.DTO.ApiErrorCode.ThirdParty_RPC">
+            <summary>
+            RPC服务,二级宏观错误
+            </summary>
+        </member>
+        <member name="F:Demkin.Blog.DTO.ApiErrorCode.ThirdParty_RPC_NotFound">
+            <summary>
+            RPC服务未找到
+            </summary>
+        </member>
+        <member name="F:Demkin.Blog.DTO.ApiErrorCode.ThirdParty_ExecuteTimeout">
+            <summary>
+            第三方系统执行超时,二级宏观错误
+            </summary>
+        </member>
+        <member name="F:Demkin.Blog.DTO.ApiErrorCode.ThirdParty_ExecuteTimeout_RPC">
+            <summary>
+            RPC 执行超时
+            </summary>
+        </member>
+        <member name="F:Demkin.Blog.DTO.ApiErrorCode.ThirdParty_DataBase">
+            <summary>
+            数据库服务出错,二级宏观错误
+            </summary>
+        </member>
+        <member name="F:Demkin.Blog.DTO.ApiErrorCode.ThirdParty_DataBase_TableNotExist">
+            <summary>
+            表不存在
+            </summary>
+        </member>
+        <member name="F:Demkin.Blog.DTO.ApiErrorCode.ThirdParty_DataBase_ColumnNotExist">
+            <summary>
+            列不存在
+            </summary>
+        </member>
         <member name="M:Demkin.Blog.DTO.ApiHelper.Success``1(``0)">
             <summary>
             成功返回
@@ -24,6 +363,21 @@
         <member name="P:Demkin.Blog.DTO.ApiResponse`1.Data">
             <summary>
             返回数据
+            </summary>
+        </member>
+        <member name="P:Demkin.Blog.DTO.Auth.TokenDetailDto.Token">
+            <summary>
+            token
+            </summary>
+        </member>
+        <member name="P:Demkin.Blog.DTO.Auth.TokenDetailDto.ExpirationDate">
+            <summary>
+            有效期至
+            </summary>
+        </member>
+        <member name="P:Demkin.Blog.DTO.Auth.TokenDetailDto.TokenType">
+            <summary>
+            token类型
             </summary>
         </member>
         <member name="T:Demkin.Blog.DTO.PageModel`1">

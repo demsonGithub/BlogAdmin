@@ -111,5 +111,73 @@ namespace Demkin.Blog.Utils.Help
             }
             return tlist;
         }
+
+        /// <summary>
+        /// datatable转excel
+        /// </summary>
+        /// <param name="fileName"></param>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        public static byte[] DataTableToExcel(string fileName, DataTable data)
+        {
+            var workbook = new HSSFWorkbook();
+            //创建sheet
+            var sheet = workbook.CreateSheet(fileName);
+            sheet.DefaultColumnWidth = 20;
+            sheet.ForceFormulaRecalculation = true;
+
+            //标题列样式
+            var headFont = workbook.CreateFont();
+            headFont.IsBold = true;
+            var headStyle = workbook.CreateCellStyle();
+            headStyle.Alignment = HorizontalAlignment.Center;
+            headStyle.BorderBottom = BorderStyle.Thin;
+            headStyle.BorderLeft = BorderStyle.Thin;
+            headStyle.BorderRight = BorderStyle.Thin;
+            headStyle.BorderTop = BorderStyle.Thin;
+            headStyle.SetFont(headFont);
+            //内容列样式
+            var cellStyle = workbook.CreateCellStyle();
+            cellStyle.BorderBottom = BorderStyle.Thin;
+            cellStyle.BorderLeft = BorderStyle.Thin;
+            cellStyle.BorderRight = BorderStyle.Thin;
+            cellStyle.BorderTop = BorderStyle.Thin;
+
+            //设置表头
+            var rowTitle = sheet.CreateRow(0);
+            for (int k = 0; k < data.Columns.Count; k++)
+            {
+                var ctIndex = rowTitle.CreateCell(0);
+                ctIndex.SetCellValue("序号");
+                ctIndex.CellStyle = headStyle;
+                var ctRow = rowTitle.CreateCell(k + 1);
+                ctRow.SetCellValue(data.Columns[k].ColumnName);
+                ctRow.CellStyle = headStyle;
+            }
+
+            //设置表内容
+            for (int i = 1; i <= data.Rows.Count; i++)
+            {
+                var row = sheet.CreateRow(i);
+                var cellIndex = row.CreateCell(0);
+                cellIndex.SetCellValue(i);
+                cellIndex.CellStyle = headStyle;
+                for (int j = 1; j <= data.Columns.Count; j++)
+                {
+                    var cell = row.CreateCell(j);
+                    cell.SetCellValue(data.Rows[i - 1][j - 1].ToString());
+                    cell.CellStyle = headStyle;
+                }
+            }
+            //获取字节序列
+            using (MemoryStream ms = new MemoryStream())
+            {
+                workbook.Write(ms);
+                byte[] buffer = new byte[ms.Length];
+                buffer = ms.ToArray();
+                ms.Close();
+                return buffer;
+            }
+        }
     }
 }

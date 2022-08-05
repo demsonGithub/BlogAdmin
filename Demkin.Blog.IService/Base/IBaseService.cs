@@ -41,6 +41,7 @@ namespace Demkin.Blog.IService.Base
         /// </summary>
         /// <param name="whereSql"></param>
         /// <param name="orderByFiled"></param>
+        /// <param name="isAsc">是否升序，默认Asc</param>
         /// <returns></returns>
         Task<List<TEntity>> GetEntityListAsync(string whereSql, string orderByFiled, bool isAsc = true);
 
@@ -50,6 +51,7 @@ namespace Demkin.Blog.IService.Base
         /// <param name="whereSql"></param>
         /// <param name="orderByFiled"></param>
         /// <param name="topNum"></param>
+        /// <param name="isAsc">是否升序，默认Asc</param>
         /// <returns></returns>
         Task<List<TEntity>> GetEntityListAsync(string whereSql, string orderByFiled, int topNum, bool isAsc = true);
 
@@ -60,6 +62,7 @@ namespace Demkin.Blog.IService.Base
         /// <param name="orderByFiled"></param>
         /// <param name="currentPage"></param>
         /// <param name="pageSize"></param>
+        /// <param name="isAsc">是否升序，默认Asc</param>
         /// <returns></returns>
         Task<List<TEntity>> GetEntityListAsync(string whereSql, string orderByFiled, int currentPage, int pageSize, bool isAsc = true);
 
@@ -75,6 +78,7 @@ namespace Demkin.Blog.IService.Base
         /// </summary>
         /// <param name="whereExpression"></param>
         /// <param name="orderByFiled"></param>
+        /// <param name="isAsc">是否升序，默认Asc</param>
         /// <returns></returns>
         Task<List<TEntity>> GetEntityListAsync(Expression<Func<TEntity, bool>> whereExpression, string orderByFiled, bool isAsc = true);
 
@@ -84,6 +88,7 @@ namespace Demkin.Blog.IService.Base
         /// <param name="whereExpression"></param>
         /// <param name="orderByFiled"></param>
         /// <param name="topNum"></param>
+        /// <param name="isAsc">是否升序，默认Asc</param>
         /// <returns></returns>
         Task<List<TEntity>> GetEntityListAsync(Expression<Func<TEntity, bool>> whereExpression, string orderByFiled, int topNum, bool isAsc = true);
 
@@ -94,6 +99,7 @@ namespace Demkin.Blog.IService.Base
         /// <param name="orderByFiled"></param>
         /// <param name="currentPage"></param>
         /// <param name="pageSize"></param>
+        /// <param name="isAsc">是否升序，默认Asc</param>
         /// <returns></returns>
         Task<List<TEntity>> GetEntityListAsync(Expression<Func<TEntity, bool>> whereExpression, string orderByFiled, int currentPage, int pageSize, bool isAsc = true);
 

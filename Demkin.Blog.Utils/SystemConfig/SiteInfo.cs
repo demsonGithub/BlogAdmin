@@ -12,6 +12,8 @@ namespace Demkin.Blog.Utils.SystemConfig
 
         public static string RepositoryDllName => Appsettings.GetValue("SiteInfo", "RepositoryDllName") + ".dll";
 
+        public static string DtoDllName => Appsettings.GetValue("SiteInfo", "DtoDllName");
+
         /// <summary>
         /// 是否开启调试SQL
         /// </summary>
