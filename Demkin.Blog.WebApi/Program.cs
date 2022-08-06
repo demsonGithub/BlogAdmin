@@ -1,10 +1,13 @@
 using Autofac.Extensions.DependencyInjection;
+using Demkin.Blog.Utils.Help;
+using Demkin.Blog.Utils.SystemConfig;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Primitives;
 using Serilog;
 using System;
 using System.IO;
@@ -32,6 +35,13 @@ namespace Demkin.Blog.WebApi
                         .AddJsonFile(AppDomain.CurrentDomain.BaseDirectory + $"\\appsettings.{environment}.json", optional: true, reloadOnChange: true)
                         .Build();
                 }
+
+                // 配置文件热更新
+                ChangeToken.OnChange(() => config.GetReloadToken(), () =>
+                {
+                    //Console.WriteLine(SiteInfo.IsDebugSql);
+                });
+
                 Log.Logger = new LoggerConfiguration()
                          .ReadFrom.Configuration(config)
                          .CreateLogger();

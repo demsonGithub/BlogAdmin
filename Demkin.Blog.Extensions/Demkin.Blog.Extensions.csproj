@@ -7,13 +7,16 @@
   <ItemGroup>
     <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="7.1.0" />
     <PackageReference Include="Autofac.Extras.DynamicProxy" Version="6.0.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="3.1.27" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="3.1.27" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Filters" Version="7.0.4" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Demkin.Blog.CodeFirst\Demkin.Blog.CodeFirst.csproj" />
     <ProjectReference Include="..\Demkin.Blog.DbAccess\Demkin.Blog.DbAccess.csproj" />
+    <ProjectReference Include="..\Demkin.Blog.DTO\Demkin.Blog.DTO.csproj" />
     <ProjectReference Include="..\Demkin.Blog.Repository\Demkin.Blog.Repository.csproj" />
     <ProjectReference Include="..\Demkin.Blog.Service\Demkin.Blog.Service.csproj" />
     <ProjectReference Include="..\Demkin.Blog.Utils\Demkin.Blog.Utils.csproj" />

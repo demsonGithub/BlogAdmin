@@ -1,6 +1,7 @@
 using Autofac;
 using Demkin.Blog.DbAccess;
 using Demkin.Blog.DbAccess.UnitOfWork;
+using Demkin.Blog.Extensions.Filter;
 using Demkin.Blog.Extensions.Middlewares;
 using Demkin.Blog.Extensions.ServiceExtensions;
 using Demkin.Blog.Utils.Help;
@@ -26,7 +27,10 @@ namespace Demkin.Blog.WebApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers().AddNewtonsoftJson(options =>
+            services.AddControllers(o =>
+            {
+                // 全局异常过滤 o.Filters.Add(typeof(GlobalExceptionsFilter));
+            }).AddNewtonsoftJson(options =>
             {
                 //修改属性名称的序列化方式，首字母小写，即驼峰样式
                 options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
@@ -47,8 +51,12 @@ namespace Demkin.Blog.WebApi
             // SqlSugar
             services.AddSqlSugarSetup();
             services.AddScoped<MyDbContext>();
-
             services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+            // jwt认证
+            services.AddAuthentication_JwtSetup();
+            // 自定义授权
+            services.AddAuthorizationSetup();
         }
 
         public void ConfigureContainer(ContainerBuilder builder)
@@ -67,7 +75,11 @@ namespace Demkin.Blog.WebApi
 
             app.UseRouting();
 
+            app.UseAuthentication();
+
             app.UseAuthorization();
+
+            // app.UseMiddleware<ExceptionHandlerMiddleware>();
 
             app.UseEndpoints(endpoints =>
             {

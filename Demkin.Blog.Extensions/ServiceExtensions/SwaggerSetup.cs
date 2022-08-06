@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
 using Serilog;
+using Swashbuckle.AspNetCore.Filters;
 using System;
 using System.IO;
 
@@ -37,6 +38,22 @@ namespace Demkin.Blog.Extensions.ServiceExtensions
                 {
                     Log.Warning("xml注释文件不存在");
                 }
+
+                // 开启加权的锁
+                c.OperationFilter<AddResponseHeadersFilter>();
+                c.OperationFilter<AppendAuthorizeToSummaryOperationFilter>();
+
+                // 在header中添加token，传递到后台
+                c.OperationFilter<SecurityRequirementsOperationFilter>();
+
+                // Jwt Bearer 认证，必须是oauth2
+                c.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
+                {
+                    Description = "JWT授权(数据将在请求头中进行传输) 直接在下框中输入Bearer {token}（注意两者之间是一个空格）\"",
+                    Name = "Authorization",
+                    In = ParameterLocation.Header,
+                    Type = SecuritySchemeType.ApiKey
+                });
             });
         }
     }

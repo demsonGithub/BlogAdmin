@@ -2,8 +2,12 @@
 using Demkin.Blog.DTO.SysUser;
 using Demkin.Blog.Entity;
 using Demkin.Blog.IService.Base;
+using Demkin.Blog.Utils.ClassExtension;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -56,12 +60,31 @@ namespace Demkin.Blog.WebApi.Controllers
             }
         }
 
+        [Authorize(Policy = "AdminOrCommon")]
         [HttpGet]
         public async Task<ApiResponse<SysUser>> GetSysUser()
         {
             SysUser entity = await _sysUserService.GetEntityAsync(item => item.LoginAccount == "sysadmin");
 
             return ApiHelper.Success(entity);
+        }
+
+        [HttpGet]
+        public async Task<ApiResponse<string>> GetException()
+        {
+            try
+            {
+                // 制造错误
+                string temp = "中文汉字";
+                int val = Convert.ToInt32(temp);
+
+                return ApiHelper.Success(val.ToString());
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "GetException");
+                return ApiHelper.Failed(ApiErrorCode.Server_Error.GetDescription(), ex.Message);
+            }
         }
 
         [HttpGet]
@@ -83,6 +106,21 @@ namespace Demkin.Blog.WebApi.Controllers
                           }).ToList();
 
             return ApiHelper.Success(result);
+        }
+
+        /// <summary>
+        /// 直接停掉服务
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost]
+        public async Task<IActionResult> CloseServer()
+        {
+            using (IServiceScope scope = HttpContext.RequestServices.CreateScope())
+            {
+                var service = scope.ServiceProvider.GetService<IHostApplicationLifetime>();
+                service.StopApplication();
+            }
+            return Ok();
         }
 
         [HttpPost]

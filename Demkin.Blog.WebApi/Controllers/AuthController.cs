@@ -1,16 +1,23 @@
 ﻿using Demkin.Blog.DTO;
 using Demkin.Blog.DTO.Auth;
+using Demkin.Blog.Enum;
+using Demkin.Blog.Extensions.AuthRelated;
+using Demkin.Blog.IService;
 using Demkin.Blog.Utils.ClassExtension;
 using Demkin.Blog.Utils.Help;
 using Demkin.Blog.Utils.SystemConfig;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.IdentityModel.Tokens.Jwt;
 using System.IO;
 using System.Reflection;
+using System.Security.Claims;
+using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
 
@@ -24,23 +31,31 @@ namespace Demkin.Blog.WebApi.Controllers
     public class AuthController : ControllerBase
     {
         private readonly ILogger<AuthController> _logger;
+        private readonly ISysUserService _sysUserService;
 
-        public AuthController(ILogger<AuthController> logger)
+        public AuthController(ILogger<AuthController> logger, ISysUserService sysUserService)
         {
             _logger = logger;
+            _sysUserService = sysUserService;
         }
 
         /// <summary>
         /// 获取错误码的注释
         /// </summary>
+        /// <param name="fileSuffix">文件的后缀，（pdf，xls，xlsx）</param>
         /// <returns></returns>
         [HttpGet]
         public async Task<IActionResult> GetErrorCodeDesciption(string fileSuffix)
         {
+            if (!(fileSuffix.ToLower() == "pdf" || fileSuffix.ToLower() == "xls" || fileSuffix.ToLower() == "xlsx"))
+            {
+                return new JsonResult(ApiHelper.Failed(ApiErrorCode.Client_RequestParam.GetDescription(), "文件名后缀不支持"));
+            }
+
             string filePath = Path.Combine(AppContext.BaseDirectory, SiteInfo.DtoDllName + ".xml");
             if (!System.IO.File.Exists(filePath))
             {
-                return NotFound(filePath);
+                return new JsonResult(ApiHelper.Failed(ApiErrorCode.Client_RequestParam.GetDescription(), "注释文件不存在"));
             }
             string fullName = SiteInfo.DtoDllName + ".ApiErrorCode";
 
@@ -76,49 +91,27 @@ namespace Demkin.Blog.WebApi.Controllers
                     };
                     errCodeDtoList.Add(itemColumn);
                 }
-                DataTable dt = ListToTable(errCodeDtoList);
+                DataTable dt = errCodeDtoList.ToDataTable();
 
-                //var contentBytes = NPOIHelper.DataTableToExcel(dt, fileSuffix);
-                //return File(contentBytes, "application/octet-stream", "test.xls");
-                var contentBytes = PdfHelper.DataTableToPDF(dt, 18);
-                return File(contentBytes, "application/octet-stream", "test.pdf");
+                if (fileSuffix.ToLower() == "pdf")
+                {
+                    var contentBytes = PdfHelper.DataTableToPDF(dt, 18);
+                    return File(contentBytes, "application/octet-stream", "接口错误码.pdf");
+                }
+                else if (fileSuffix.ToLower() == "xls" || fileSuffix.ToLower() == "xlsx")
+                {
+                    var contentBytes = NPOIHelper.DataTableToExcel(dt, fileSuffix);
+                    return File(contentBytes, "application/octet-stream", "接口错误码." + fileSuffix.ToLower());
+                }
+                else
+                {
+                    return new JsonResult(ApiHelper.Failed(ApiErrorCode.Server_Error.GetDescription(), "发生了错误"));
+                }
             }
             catch
             {
-                return NotFound();
+                return new JsonResult(ApiHelper.Failed(ApiErrorCode.Server_Error.GetDescription(), "服务端发生了错误"));
             }
-        }
-
-        public static DataTable ListToTable<T>(List<T> list)
-        {
-            Type tp = typeof(T);
-            PropertyInfo[] proInfos = tp.GetProperties();
-            DataTable dt = new DataTable();
-            foreach (var item in proInfos)
-            {
-                dt.Columns.Add(item.Name, item.PropertyType); //添加列明及对应类型
-            }
-            foreach (var item in list)
-            {
-                DataRow dr = dt.NewRow();
-                foreach (var proInfo in proInfos)
-                {
-                    object obj = proInfo.GetValue(item);
-                    if (obj == null)
-                    {
-                        continue;
-                    }
-                    if (proInfo.PropertyType == typeof(DateTime) && Convert.ToDateTime(obj) < Convert.ToDateTime("1753-01-01"))
-                    {
-                        continue;
-                    }
-                    // dr[proInfo.Name] = proInfo.GetValue(item);
-                    dr[proInfo.Name] = obj;
-                    // }
-                }
-                dt.Rows.Add(dr);
-            }
-            return dt;
         }
 
         /// <summary>
@@ -130,10 +123,42 @@ namespace Demkin.Blog.WebApi.Controllers
         [HttpGet]
         public async Task<ApiResponse<TokenDetailDto>> GetJwtToken(string account = "", string password = "")
         {
-            if (string.IsNullOrEmpty(account) || string.IsNullOrEmpty(password))
-                return ApiHelper.Failed<TokenDetailDto>(ApiErrorCode.Success.GetDescription(), "账号或密码错误", null);
+            try
+            {
+                if (string.IsNullOrEmpty(account) || string.IsNullOrEmpty(password))
+                    return ApiHelper.Failed<TokenDetailDto>(ApiErrorCode.Client_Login.GetDescription(), "账号或密码必填", null);
 
-            return ApiHelper.Failed<TokenDetailDto>("A0002", "发生错误", null);
+                password = MD5Helper.MD5Encrypt32(password);
+
+                var sysUserDo = await _sysUserService.GetEntityAsync(item => item.LoginAccount == account && item.LoginPwd == password && item.Status == Status.Enable);
+                if (sysUserDo == null)
+                {
+                    return ApiHelper.Failed<TokenDetailDto>(ApiErrorCode.Client_Login.GetDescription(), "账号或密码错误", null);
+                }
+                // 声明Claim，配置用户标识
+                List<Claim> claims = new List<Claim>()
+                {
+                    new Claim(ClaimTypes.Name,sysUserDo.LoginAccount),
+                    new Claim(JwtRegisteredClaimNames.Jti,sysUserDo.Id.ToString()),
+                    new Claim(ClaimTypes.Expiration,DateTime.Now.AddMinutes(JwtTokenInfo.ExpiresTime).ToString("yyyy-MM-dd HH:mm:ss"))
+                };
+                claims.Add(new Claim(ClaimTypes.Role, "Admin"));
+
+                string token = JwtTokenHandler.BuildJwtToken(claims);
+
+                var resultDto = new TokenDetailDto()
+                {
+                    Token = token,
+                    ExpirationDate = DateTime.Now.AddMinutes(JwtTokenInfo.ExpiresTime).ToString("yyyy-MM-dd HH:mm:ss"),
+                    TokenType = "Bearer"
+                };
+
+                return ApiHelper.Success(resultDto);
+            }
+            catch (Exception ex)
+            {
+                return ApiHelper.Failed<TokenDetailDto>(ApiErrorCode.Server_Error.GetDescription(), ex.Message, null);
+            }
         }
     }
 }
