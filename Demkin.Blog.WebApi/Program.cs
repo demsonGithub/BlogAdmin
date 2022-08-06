@@ -25,6 +25,7 @@ namespace Demkin.Blog.WebApi
                 IConfigurationRoot config = null;
                 if (environment == "Development")
                 {
+                    // reloadOnChange 热更新
                     config = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory())
                         .AddJsonFile(AppDomain.CurrentDomain.BaseDirectory + $"\\appsettings.{environment}.json", optional: true, reloadOnChange: true).Build();
                 }
@@ -35,12 +36,6 @@ namespace Demkin.Blog.WebApi
                         .AddJsonFile(AppDomain.CurrentDomain.BaseDirectory + $"\\appsettings.{environment}.json", optional: true, reloadOnChange: true)
                         .Build();
                 }
-
-                // 配置文件热更新
-                ChangeToken.OnChange(() => config.GetReloadToken(), () =>
-                {
-                    //Console.WriteLine(SiteInfo.IsDebugSql);
-                });
 
                 Log.Logger = new LoggerConfiguration()
                          .ReadFrom.Configuration(config)
