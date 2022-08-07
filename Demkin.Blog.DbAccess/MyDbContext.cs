@@ -7,8 +7,8 @@ namespace Demkin.Blog.DbAccess
     public class MyDbContext
     {
         private SqlSugarScope _db;
-        private string _connectionString = DbConfigInfo.ConnectionString;
-        private DbType _dbType = (DbType)DbConfigInfo.Type;
+        private string _connectionString = ConfigSetting.DbConfigInfo.ConnectionString;
+        private DbType _dbType = (DbType)ConfigSetting.DbConfigInfo.Type;
 
         /// <summary>
         /// 数据库链接对象

@@ -14,7 +14,7 @@ namespace Demkin.Blog.DbAccess.UnitOfWork
 
         public UnitOfWork(ISqlSugarClient sqlSugarClient)
         {
-            if (SiteInfo.IsDebugSql)
+            if (ConfigSetting.SiteInfo.IsDebugSql)
             {
                 sqlSugarClient.Aop.OnLogExecuting = (sql, p) =>
                 {

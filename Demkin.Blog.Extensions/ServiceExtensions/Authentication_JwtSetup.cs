@@ -2,6 +2,7 @@
 using Demkin.Blog.Utils.SystemConfig;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.IdentityModel.Tokens.Jwt;
@@ -20,7 +21,7 @@ namespace Demkin.Blog.Extensions.ServiceExtensions
         {
             if (services == null) throw new ArgumentNullException(nameof(services));
 
-            var secretKeyToByte = Encoding.UTF8.GetBytes(JwtTokenInfo.SecretKey);
+            var secretKeyToByte = Encoding.UTF8.GetBytes(ConfigSetting.JwtTokenInfo.SecretKey);
             var signingKey = new SymmetricSecurityKey(secretKeyToByte);
 
             var signingCredentials = new SigningCredentials(signingKey, SecurityAlgorithms.HmacSha256);
@@ -31,9 +32,9 @@ namespace Demkin.Blog.Extensions.ServiceExtensions
                 ValidateIssuerSigningKey = true,
                 IssuerSigningKey = signingKey,
                 ValidateIssuer = true,
-                ValidIssuer = JwtTokenInfo.Issuer,
+                ValidIssuer = ConfigSetting.JwtTokenInfo.Issuer,
                 ValidateAudience = true,
-                ValidAudience = JwtTokenInfo.Audience,
+                ValidAudience = ConfigSetting.JwtTokenInfo.Audience,
                 // 是否需要token必须设置过期时间Expires
                 RequireExpirationTime = true,
                 // 允许服务器时间偏移量
@@ -80,11 +81,11 @@ namespace Demkin.Blog.Extensions.ServiceExtensions
                     {
                         var token = context.Request.Headers["Authorization"].ObjToString().Replace("Bearer ", "");
                         var jwtToken = new JwtSecurityTokenHandler().ReadJwtToken(token);
-                        if (jwtToken.Issuer != JwtTokenInfo.Issuer)
+                        if (jwtToken.Issuer != ConfigSetting.JwtTokenInfo.Issuer)
                         {
                             context.Response.Headers.Add("Token-Error-Iss", "issuer is wrong!");
                         }
-                        if (jwtToken.Audiences.FirstOrDefault() != JwtTokenInfo.Audience)
+                        if (jwtToken.Audiences.FirstOrDefault() != ConfigSetting.JwtTokenInfo.Audience)
                         {
                             context.Response.Headers.Add("Token-Error-Aud", "Audience is wrong!");
                         }

@@ -22,18 +22,18 @@ namespace Demkin.Blog.WebApi
             try
             {
                 var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
-                IConfigurationRoot config = null;
+                IConfiguration config = null;
                 if (environment == "Development")
                 {
                     // reloadOnChange 热更新
                     config = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory())
-                        .AddJsonFile(AppDomain.CurrentDomain.BaseDirectory + $"\\appsettings.{environment}.json", optional: true, reloadOnChange: true).Build();
+                        .AddJsonFile(AppDomain.CurrentDomain.BaseDirectory + $"\\appsettings.{environment}.json", optional: false, reloadOnChange: true)
+                        .Build();
                 }
                 else
                 {
                     config = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory())
-                        .AddJsonFile(AppDomain.CurrentDomain.BaseDirectory + "\\appsettings.json", optional: true, reloadOnChange: true)
-                        .AddJsonFile(AppDomain.CurrentDomain.BaseDirectory + $"\\appsettings.{environment}.json", optional: true, reloadOnChange: true)
+                        .AddJsonFile(AppDomain.CurrentDomain.BaseDirectory + "\\appsettings.json", optional: false, reloadOnChange: true)
                         .Build();
                 }
 
@@ -54,7 +54,6 @@ namespace Demkin.Blog.WebApi
                 }
                 // 修改默认的日志框架
                 builder.UseSerilog();
-
                 var host = builder.Build();
 
                 host.Run();
@@ -71,10 +70,16 @@ namespace Demkin.Blog.WebApi
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
+            .ConfigureAppConfiguration((context, config) =>
+            {
+                // 最后一个参数就是是否热更新
+                config.AddJsonFile(AppDomain.CurrentDomain.BaseDirectory + "\\appsettings.json", optional: false, reloadOnChange: true);
+            })
             .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseUrls(args.Length == 0 ? $"http://*:8090" : $"http://*:{args[0]}");
                     webBuilder.UseStartup<Startup>();
-                });
+                })
+            ;
     }
 }

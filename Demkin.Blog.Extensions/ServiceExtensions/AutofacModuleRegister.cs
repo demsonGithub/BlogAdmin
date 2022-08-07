@@ -18,8 +18,8 @@ namespace Demkin.Blog.Extensions.ServiceExtensions
         {
             string basePath = AppContext.BaseDirectory;
 
-            var serviceDllFile = Path.Combine(basePath, SiteInfo.ServiceDllName);
-            var repositoryDllFile = Path.Combine(basePath, SiteInfo.RepositoryDllName);
+            var serviceDllFile = Path.Combine(basePath, ConfigSetting.SiteInfo.ServiceDllName);
+            var repositoryDllFile = Path.Combine(basePath, ConfigSetting.SiteInfo.RepositoryDllName);
 
             if (!File.Exists(serviceDllFile) || !File.Exists(repositoryDllFile))
             {

@@ -20,7 +20,7 @@ namespace Demkin.Blog.CodeFirst
             try
             {
                 // 创建数据库
-                if (DbConfigInfo.Type == DataBaseType.Oracle)
+                if (ConfigSetting.DbConfigInfo.Type == DataBaseType.Oracle)
                 {
                     Console.WriteLine($"Oracle 数据库不支持该操作，可手动创建Oracle数据库!");
                     return;
@@ -35,7 +35,7 @@ namespace Demkin.Blog.CodeFirst
 
                 // 创建表结构
                 var path = AppDomain.CurrentDomain.RelativeSearchPath ?? AppDomain.CurrentDomain.BaseDirectory;
-                string entityDllName = DbConfigInfo.EntityDllName;
+                string entityDllName = ConfigSetting.DbConfigInfo.EntityDllName;
                 var referencedAssemblies = Directory.GetFiles(path, entityDllName + ".dll").Select(Assembly.LoadFrom).ToArray();
                 var modelTypes = referencedAssemblies
                     .SelectMany(a => a.DefinedTypes)
@@ -56,9 +56,9 @@ namespace Demkin.Blog.CodeFirst
                 });
 
                 // 初始化数据
-                if (DbConfigInfo.InitBasicData && !string.IsNullOrEmpty(DbConfigInfo.InitBasicDataFolder))
+                if (ConfigSetting.DbConfigInfo.InitBasicData && !string.IsNullOrEmpty(ConfigSetting.DbConfigInfo.InitBasicDataFolder))
                 {
-                    string _initBasicDataFolder = Path.Combine(webRootPath, DbConfigInfo.InitBasicDataFolder);
+                    string _initBasicDataFolder = Path.Combine(webRootPath, ConfigSetting.DbConfigInfo.InitBasicDataFolder);
 
                     #region SysUserInfo
 

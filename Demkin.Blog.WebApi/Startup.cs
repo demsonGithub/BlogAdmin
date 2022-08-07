@@ -5,11 +5,13 @@ using Demkin.Blog.Extensions.Filter;
 using Demkin.Blog.Extensions.Middlewares;
 using Demkin.Blog.Extensions.ServiceExtensions;
 using Demkin.Blog.Utils.Help;
+using Demkin.Blog.Utils.SystemConfig;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 
@@ -43,9 +45,9 @@ namespace Demkin.Blog.WebApi
                 //∫ˆ¬‘ø’÷µ¥¶¿Ì
                 //options.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
             });
+            services.AddSingleton(new ConfigSetting(Configuration));
 
             services.AddSingleton(new Appsettings(Configuration));
-
             services.AddSwaggerSetup();
 
             // SqlSugar
@@ -86,7 +88,7 @@ namespace Demkin.Blog.WebApi
                 endpoints.MapControllers();
             });
 
-            app.UseInitBasicDataMiddleware(myDbContext, env.WebRootPath);
+            // app.UseInitBasicDataMiddleware(myDbContext, env.WebRootPath);
         }
     }
 }

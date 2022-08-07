@@ -52,12 +52,12 @@ namespace Demkin.Blog.WebApi.Controllers
                 return new JsonResult(ApiHelper.Failed(ApiErrorCode.Client_RequestParam.GetDescription(), "文件名后缀不支持"));
             }
 
-            string filePath = Path.Combine(AppContext.BaseDirectory, SiteInfo.DtoDllName + ".xml");
+            string filePath = Path.Combine(AppContext.BaseDirectory, ConfigSetting.SiteInfo.DtoDllName + ".xml");
             if (!System.IO.File.Exists(filePath))
             {
                 return new JsonResult(ApiHelper.Failed(ApiErrorCode.Client_RequestParam.GetDescription(), "注释文件不存在"));
             }
-            string fullName = SiteInfo.DtoDllName + ".ApiErrorCode";
+            string fullName = ConfigSetting.SiteInfo.DtoDllName + ".ApiErrorCode";
 
             try
             {
@@ -140,7 +140,7 @@ namespace Demkin.Blog.WebApi.Controllers
                 {
                     new Claim(ClaimTypes.Name,sysUserDo.LoginAccount),
                     new Claim(JwtRegisteredClaimNames.Jti,sysUserDo.Id.ToString()),
-                    new Claim(ClaimTypes.Expiration,DateTime.Now.AddMinutes(JwtTokenInfo.ExpiresTime).ToString("yyyy-MM-dd HH:mm:ss"))
+                    new Claim(ClaimTypes.Expiration,DateTime.Now.AddMinutes(ConfigSetting.JwtTokenInfo.ExpiresTime).ToString("yyyy-MM-dd HH:mm:ss"))
                 };
                 claims.Add(new Claim(ClaimTypes.Role, "Admin"));
 
@@ -149,7 +149,7 @@ namespace Demkin.Blog.WebApi.Controllers
                 var resultDto = new TokenDetailDto()
                 {
                     Token = token,
-                    ExpirationDate = DateTime.Now.AddMinutes(JwtTokenInfo.ExpiresTime).ToString("yyyy-MM-dd HH:mm:ss"),
+                    ExpirationDate = DateTime.Now.AddMinutes(ConfigSetting.JwtTokenInfo.ExpiresTime).ToString("yyyy-MM-dd HH:mm:ss"),
                     TokenType = "Bearer"
                 };
 

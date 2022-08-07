@@ -21,16 +21,16 @@ namespace Demkin.Blog.Extensions.AuthRelated
         public static string BuildJwtToken(List<Claim> claims)
         {
             // 生成签名
-            var secretKeyToByte = Encoding.UTF8.GetBytes(JwtTokenInfo.SecretKey);
+            var secretKeyToByte = Encoding.UTF8.GetBytes(ConfigSetting.JwtTokenInfo.SecretKey);
             var signingKey = new SymmetricSecurityKey(secretKeyToByte);
 
             var signingCredentials = new SigningCredentials(signingKey, SecurityAlgorithms.HmacSha256);
 
-            var token = new JwtSecurityTokenHandler().WriteToken(new JwtSecurityToken(issuer: JwtTokenInfo.Issuer,
-                audience: JwtTokenInfo.Audience,
+            var token = new JwtSecurityTokenHandler().WriteToken(new JwtSecurityToken(issuer: ConfigSetting.JwtTokenInfo.Issuer,
+                audience: ConfigSetting.JwtTokenInfo.Audience,
                 claims: claims,
                 notBefore: DateTime.Now,
-                expires: DateTime.Now.AddMinutes(JwtTokenInfo.ExpiresTime),
+                expires: DateTime.Now.AddMinutes(ConfigSetting.JwtTokenInfo.ExpiresTime),
                 signingCredentials: signingCredentials
             ));
 

@@ -1,22 +1,50 @@
-﻿using Demkin.Blog.Utils.ClassExtension;
-using Demkin.Blog.Utils.Help;
-
-namespace Demkin.Blog.Utils.SystemConfig
+﻿namespace Demkin.Blog.Utils.SystemConfig
 {
     /// <summary>
     /// 网站基础信息相关配置
     /// </summary>
     public class SiteInfo
     {
-        public static string ServiceDllName => Appsettings.GetValue("SiteInfo", "ServiceDllName") + ".dll";
+        public SiteInfo()
+        {
+            System.Console.WriteLine("aaa");
+        }
 
-        public static string RepositoryDllName => Appsettings.GetValue("SiteInfo", "RepositoryDllName") + ".dll";
+        /// <summary>
+        /// 雪花算法的id
+        /// </summary>
+        public int SnowFlakeWorkerId { get; set; }
 
-        public static string DtoDllName => Appsettings.GetValue("SiteInfo", "DtoDllName");
+        private string _serviceDllName;
+
+        /// <summary>
+        /// service层的dll名称
+        /// </summary>
+        public string ServiceDllName
+        {
+            get { return _serviceDllName; }
+            set { _serviceDllName = value + ".dll"; }
+        }
+
+        private string _repositoryDllName;
+
+        /// <summary>
+        /// repository层的dll名称
+        /// </summary>
+        public string RepositoryDllName
+        {
+            get { return _repositoryDllName; }
+            set { _repositoryDllName = value + ".dll"; }
+        }
+
+        /// <summary>
+        /// Dto的dll名称
+        /// </summary>
+        public string DtoDllName { get; set; }
 
         /// <summary>
         /// 是否开启调试SQL
         /// </summary>
-        public static bool IsDebugSql => Appsettings.GetValue("SiteInfo", "IsDebugSql").ObjToBool();
+        public bool IsDebugSql { get; set; }
     }
 }

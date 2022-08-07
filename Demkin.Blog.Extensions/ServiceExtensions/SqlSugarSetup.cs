@@ -17,8 +17,8 @@ namespace Demkin.Blog.Extensions.ServiceExtensions
             {
                 var connectionConfig = new ConnectionConfig
                 {
-                    DbType = (DbType)DbConfigInfo.Type,
-                    ConnectionString = DbConfigInfo.ConnectionString,
+                    DbType = (DbType)ConfigSetting.DbConfigInfo.Type,
+                    ConnectionString = ConfigSetting.DbConfigInfo.ConnectionString,
                     IsAutoCloseConnection = true,
                     InitKeyType = InitKeyType.Attribute,
                 };

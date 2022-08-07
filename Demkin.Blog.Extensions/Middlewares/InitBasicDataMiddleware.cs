@@ -19,7 +19,7 @@ namespace Demkin.Blog.Extensions.Middlewares
 
             try
             {
-                if (DbConfigInfo.InitTables)
+                if (ConfigSetting.DbConfigInfo.InitTables)
                 {
                     BasicData.InitDataAsync(myDbContext, webRootPath).Wait();
                 }
