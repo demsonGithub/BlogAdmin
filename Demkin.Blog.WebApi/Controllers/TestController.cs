@@ -1,6 +1,7 @@
 ﻿using Demkin.Blog.DTO;
 using Demkin.Blog.DTO.SysUser;
 using Demkin.Blog.Entity;
+using Demkin.Blog.Extensions.Exceptions;
 using Demkin.Blog.IService.Base;
 using Demkin.Blog.Utils.ClassExtension;
 using Microsoft.AspNetCore.Authorization;
@@ -72,24 +73,20 @@ namespace Demkin.Blog.WebApi.Controllers
         [HttpGet]
         public async Task<ApiResponse<string>> GetException()
         {
-            try
-            {
-                // 制造错误
-                string temp = "中文汉字";
-                int val = Convert.ToInt32(temp);
+            // 制造错误
+            string temp = "中文汉字";
+            int val = Convert.ToInt32(temp);
 
-                return ApiHelper.Success(val.ToString());
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "GetException");
-                return ApiHelper.Failed(ApiErrorCode.Server_Error.GetDescription(), ex.Message);
-            }
+            return ApiHelper.Success(val.ToString());
+
+            // return ApiHelper.Failed(ApiErrorCode.Server_Error.GetDescription(), ex.Message);
         }
 
         [HttpGet]
         public async Task<ApiResponse<List<SysUserDetailDto>>> GetSysUserList()
         {
+            _logger.LogInformation("自定义测试Info");
+
             string sqlWhere = "";
 
             string orderByFiled = nameof(SysUserDetailDto.Age);

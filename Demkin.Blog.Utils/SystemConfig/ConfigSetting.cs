@@ -1,7 +1,13 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Demkin.Blog.Utils.Help;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Primitives;
 using Serilog;
 using System;
+using System.IO;
+using System.Linq;
+using System.Threading;
 
 namespace Demkin.Blog.Utils.SystemConfig
 {
@@ -10,13 +16,16 @@ namespace Demkin.Blog.Utils.SystemConfig
     /// </summary>
     public class ConfigSetting
     {
-        private DateTime _lastTime;
+        private byte[] _appsettingsHash = new byte[20];
 
         private readonly IConfiguration _configuration;
+        private readonly IWebHostEnvironment _env;
 
         private static SiteInfo _siteInfo = new SiteInfo();
         private static DbConfigInfo _dbConfigInfo = new DbConfigInfo();
         private static JwtTokenInfo _jwtTokenInfo = new JwtTokenInfo();
+
+        #region config属性
 
         /// <summary>
         /// 网站配置信息
@@ -42,30 +51,39 @@ namespace Demkin.Blog.Utils.SystemConfig
             get { return _jwtTokenInfo; }
         }
 
-        public ConfigSetting(IConfiguration configuration)
+        #endregion config属性
+
+        public ConfigSetting(IConfiguration configuration, IWebHostEnvironment env)
         {
             _configuration = configuration;
+            _env = env;
             ChangeToken.OnChange(() => configuration.GetReloadToken(), () =>
             {
-                DateTime dtNow = DateTime.Now;
-                if ((TimeSpan)(dtNow - _lastTime) > TimeSpan.FromSeconds(3))
-                {
-                    ReloadConfiguration();
-                }
+                ReloadConfiguration(_env);
             });
 
-            ReloadConfiguration();
+            ReloadConfiguration(_env);
         }
 
-        public void ReloadConfiguration()
+        public void ReloadConfiguration(IWebHostEnvironment env)
         {
             try
             {
-                _configuration.GetSection(nameof(SiteInfo)).Bind(_siteInfo);
-                _configuration.GetSection(nameof(DbConfigInfo)).Bind(_dbConfigInfo);
-                _configuration.GetSection(nameof(JwtTokenInfo)).Bind(_jwtTokenInfo);
-                _lastTime = DateTime.Now;
-                Console.WriteLine("配置加载完成");
+                string fileName = env.IsProduction() ? "appsettings.json" : $"appsettings.{env.EnvironmentName}.json";
+
+                string filePath = Path.Combine(AppContext.BaseDirectory, fileName);
+
+                var appsettingsHash = FileHelper.ComputeHash(filePath);
+
+                if (!_appsettingsHash.SequenceEqual(appsettingsHash))
+                {
+                    _configuration.GetSection(nameof(SiteInfo)).Bind(_siteInfo);
+                    _configuration.GetSection(nameof(DbConfigInfo)).Bind(_dbConfigInfo);
+                    _configuration.GetSection(nameof(JwtTokenInfo)).Bind(_jwtTokenInfo);
+
+                    _appsettingsHash = appsettingsHash;
+                    Console.WriteLine("配置加载完成");
+                }
             }
             catch (Exception ex)
             {

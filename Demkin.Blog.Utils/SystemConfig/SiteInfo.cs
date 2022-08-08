@@ -5,11 +5,6 @@
     /// </summary>
     public class SiteInfo
     {
-        public SiteInfo()
-        {
-            System.Console.WriteLine("aaa");
-        }
-
         /// <summary>
         /// 雪花算法的id
         /// </summary>
