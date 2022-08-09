@@ -6,18 +6,14 @@ using Demkin.Blog.IService;
 using Demkin.Blog.Utils.ClassExtension;
 using Demkin.Blog.Utils.Help;
 using Demkin.Blog.Utils.SystemConfig;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.IdentityModel.Tokens.Jwt;
 using System.IO;
-using System.Reflection;
 using System.Security.Claims;
-using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
 
@@ -32,11 +28,13 @@ namespace Demkin.Blog.WebApi.Controllers
     {
         private readonly ILogger<AuthController> _logger;
         private readonly ISysUserService _sysUserService;
+        private readonly PermissionRequirement _requirement;
 
-        public AuthController(ILogger<AuthController> logger, ISysUserService sysUserService)
+        public AuthController(ILogger<AuthController> logger, ISysUserService sysUserService, PermissionRequirement requirement)
         {
             _logger = logger;
             _sysUserService = sysUserService;
+            _requirement = requirement;
         }
 
         /// <summary>
@@ -136,15 +134,22 @@ namespace Demkin.Blog.WebApi.Controllers
                     return ApiHelper.Failed<TokenDetailDto>(ApiErrorCode.Client_Login.GetDescription(), "账号或密码错误", null);
                 }
                 // 声明Claim，配置用户标识
-                List<Claim> claims = new List<Claim>()
+                //List<Claim> claims = new List<Claim>
+                //{
+                //    new Claim(ClaimTypes.Name, sysUserDo.LoginAccount),
+                //    new Claim(JwtRegisteredClaimNames.Jti, sysUserDo.Id.ToString()),
+                //    new Claim(ClaimTypes.Expiration, DateTime.Now.AddMinutes(ConfigSetting.JwtTokenInfo.ExpiresTime).ToString("yyyy-MM-dd HH:mm:ss")),
+                //};
+                List<Claim> claims = new List<Claim>
                 {
                     new Claim(ClaimTypes.Name,sysUserDo.LoginAccount),
                     new Claim(JwtRegisteredClaimNames.Jti,sysUserDo.Id.ToString()),
-                    new Claim(ClaimTypes.Expiration,DateTime.Now.AddMinutes(ConfigSetting.JwtTokenInfo.ExpiresTime).ToString("yyyy-MM-dd HH:mm:ss"))
+                    new Claim(ClaimTypes.Expiration,DateTime.Now.AddMinutes(_requirement.ExpiresTime.Minutes).ToString())
                 };
-                claims.Add(new Claim(ClaimTypes.Role, "Admin"));
+                // 添加角色,角色对应的url
+                //claims.AddRange()
 
-                string token = JwtTokenHandler.BuildJwtToken(claims);
+                string token = JwtTokenHandler.BuildJwtToken(claims.ToArray(), _requirement);
 
                 var resultDto = new TokenDetailDto()
                 {
