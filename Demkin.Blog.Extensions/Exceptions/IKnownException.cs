@@ -6,13 +6,6 @@
 
         string msg { get; }
 
-        ExceptionDetail data { get; }
-    }
-
-    public class ExceptionDetail
-    {
-        public string errorMsg { get; set; }
-
-        public string errorStackTrace { get; set; }
+        object data { get; }
     }
 }

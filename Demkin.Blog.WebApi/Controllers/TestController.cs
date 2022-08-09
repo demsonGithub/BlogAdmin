@@ -73,11 +73,19 @@ namespace Demkin.Blog.WebApi.Controllers
         [HttpGet]
         public async Task<ApiResponse<string>> GetException()
         {
-            // 制造错误
-            string temp = "中文汉字";
-            int val = Convert.ToInt32(temp);
+            try
+            {
+                // 制造错误
+                string temp = "中文汉字";
+                int val = Convert.ToInt32(temp);
 
-            return ApiHelper.Success(val.ToString());
+                return ApiHelper.Success(val.ToString());
+            }
+            catch (Exception ex)
+            {
+                throw;
+                //throw new CustomException(ApiErrorCode.Client_Error.GetDescription(), ex.Message, ex);
+            }
 
             // return ApiHelper.Failed(ApiErrorCode.Server_Error.GetDescription(), ex.Message);
         }

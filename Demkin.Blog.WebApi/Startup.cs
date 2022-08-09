@@ -1,26 +1,16 @@
-using Autofac;
 using Demkin.Blog.DbAccess;
 using Demkin.Blog.DbAccess.UnitOfWork;
-using Demkin.Blog.DTO;
-using Demkin.Blog.Extensions.Exceptions;
 using Demkin.Blog.Extensions.Filter;
 using Demkin.Blog.Extensions.Middlewares;
 using Demkin.Blog.Extensions.ServiceExtensions;
-using Demkin.Blog.Utils.Help;
-using Demkin.Blog.Utils.SystemConfig;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
-using System;
 
 namespace Demkin.Blog.WebApi
 {
@@ -74,48 +64,17 @@ namespace Demkin.Blog.WebApi
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, MyDbContext myDbContext, ILoggerFactory loggerFactory)
         {
-            //if (env.IsDevelopment())
-            //{
-            //app.UseDeveloperExceptionPage();
-            app.UseSwaggerMiddleware();
-            //}
-
-            //app.UseExceptionHandler(error =>
-            //{
-            //    error.Run(async context =>
-            //    {
-            //        var exceptionHandlerPathFeature = context.Features.Get<IExceptionHandlerPathFeature>();
-            //        var knownException = exceptionHandlerPathFeature.Error as IKnownException;
-            //        if (knownException == null)
-            //        {
-            //            var logger = loggerFactory.CreateLogger("Api.Exception");
-            //            logger.LogError(exceptionHandlerPathFeature.Error, exceptionHandlerPathFeature.Error.Message);
-
-            //            knownException = KnownException.UnKnown;
-            //            // 将错误Http响应码设置为500
-            //            context.Response.StatusCode = StatusCodes.Status500InternalServerError;
-            //        }
-            //        else
-            //        {
-            //            // 是已知的异常
-            //            knownException = KnownException.FromKnownException(knownException);
-            //            // 将Http响应码设置为200
-            //            context.Response.StatusCode = StatusCodes.Status200OK;
-            //        }
-            //        var jsonOptions = context.RequestServices.GetService<IOptions<JsonOptions>>();
-            //        context.Response.ContentType = "application/json;charset=utf-8";
-            //        //await context.Response.WriteAsync(System.Text.Json.JsonSerializer.Serialize(knownException, jsonOptions.Value.JsonSerializerOptions));
-            //        await context.Response.WriteAsync(System.Text.Json.JsonSerializer.Serialize(ApiHelper.Failed("CCCC", "出错了")));
-            //    });
-            //});
+            if (env.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+                app.UseSwaggerMiddleware();
+            }
 
             app.UseRouting();
 
             app.UseAuthentication();
 
             app.UseAuthorization();
-
-            // app.UseMiddleware<ExceptionHandlerMiddleware>();
 
             app.UseEndpoints(endpoints =>
             {

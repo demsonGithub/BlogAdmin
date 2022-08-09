@@ -41,5 +41,10 @@
         /// 是否开启调试SQL
         /// </summary>
         public bool IsDebugSql { get; set; }
+
+        /// <summary>
+        /// 是否接口显示堆栈
+        /// </summary>
+        public bool IsDisplayStack { get; set; } = false;
     }
 }

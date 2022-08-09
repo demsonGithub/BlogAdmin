@@ -1,5 +1,6 @@
 ﻿using Demkin.Blog.DTO;
 using Demkin.Blog.Utils.ClassExtension;
+using System;
 
 namespace Demkin.Blog.Extensions.Exceptions
 {
@@ -9,9 +10,12 @@ namespace Demkin.Blog.Extensions.Exceptions
 
         public string msg { get; private set; }
 
-        public ExceptionDetail data { get; private set; }
+        public object data { get; private set; }
 
-        public static readonly IKnownException UnKnown = new KnownException { code = ApiErrorCode.Server_Error.GetDescription(), msg = "未知错误" };
+        public static IKnownException UnKnown(object data = null)
+        {
+            return new KnownException { code = ApiErrorCode.Server_Error.GetDescription(), msg = "未知错误", data = data };
+        }
 
         public static IKnownException FromKnownException(IKnownException knownException)
         {

@@ -1,16 +1,9 @@
-﻿using Demkin.Blog.DTO;
-using Demkin.Blog.Extensions.Exceptions;
-using Demkin.Blog.Utils.ClassExtension;
-using Microsoft.AspNetCore.Hosting;
+﻿using Demkin.Blog.Extensions.Exceptions;
+using Demkin.Blog.Utils.SystemConfig;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
-using Microsoft.Extensions.Hosting;
-using Newtonsoft.Json;
 using Serilog;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Demkin.Blog.Extensions.Filter
 {
@@ -19,34 +12,27 @@ namespace Demkin.Blog.Extensions.Filter
     /// </summary>
     public class GlobalExceptionsFilter : IExceptionFilter
     {
-        private readonly IWebHostEnvironment _env;
-
-        public GlobalExceptionsFilter(IWebHostEnvironment env)
+        public GlobalExceptionsFilter()
         {
-            _env = env;
         }
 
         public void OnException(ExceptionContext context)
         {
-            IKnownException knownException = context.Exception as IKnownException;
             // 获取需要返回的错误信息
-            var exceptionDetail = new ExceptionDetail
-            {
-                errorMsg = context.Exception.Message,
-                errorStackTrace = _env.IsDevelopment() ? context.Exception.StackTrace : ""
-            };
+            var controllerName = context.ActionDescriptor.DisplayName;
 
-            if (knownException == null)
-            {
-                Log.Error(context.Exception, context.Exception.Message);
-
-                knownException = KnownException.UnKnown;
-                context.HttpContext.Response.StatusCode = StatusCodes.Status500InternalServerError;
-            }
-            else
+            if (context.Exception is IKnownException knownException)
             {
                 knownException = KnownException.FromKnownException(knownException);
                 context.HttpContext.Response.StatusCode = StatusCodes.Status200OK;
+            }
+            else
+            {
+                // 未捕获的错误，日志记录下来
+                Log.Error(context.Exception, context.Exception.Message);
+
+                knownException = KnownException.UnKnown(ConfigSetting.SiteInfo.IsDisplayStack ? context.Exception : null);
+                context.HttpContext.Response.StatusCode = StatusCodes.Status500InternalServerError;
             }
             context.Result = new JsonResult(knownException)
             {
