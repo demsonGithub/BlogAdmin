@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Demkin.Blog.DTO\Demkin.Blog.DTO.csproj" />
     <ProjectReference Include="..\Demkin.Blog.Entity\Demkin.Blog.Entity.csproj" />
   </ItemGroup>
 

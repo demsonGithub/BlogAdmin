@@ -50,6 +50,8 @@ namespace Demkin.Blog.WebApi
 
             services.AddSwaggerSetup();
 
+            services.AddHttpContextSetup();
+
             // SqlSugar
             services.AddSqlSugarSetup();
             services.AddScoped<MyDbContext>();

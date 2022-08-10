@@ -4,24 +4,43 @@
         <name>Demkin.Blog.WebApi</name>
     </assembly>
     <members>
-        <member name="T:Demkin.Blog.WebApi.Controllers.AuthController">
+        <member name="M:Demkin.Blog.WebApi.Controllers.AuthController.AddRoleToUser(Demkin.Blog.DTO.Auth.UserRoleRelationInsertDto)">
+            <summary>
+            给用户
+            </summary>
+            <param name="entityDto"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Demkin.Blog.WebApi.Controllers.LoginController">
             <summary>
             权限认证
             </summary>
         </member>
-        <member name="M:Demkin.Blog.WebApi.Controllers.AuthController.GetErrorCodeDesciption(System.String)">
+        <member name="M:Demkin.Blog.WebApi.Controllers.LoginController.GetErrorCodeDesciption(System.String)">
             <summary>
             获取错误码的注释
             </summary>
             <param name="fileSuffix">文件的后缀，（pdf，xls，xlsx）</param>
             <returns></returns>
         </member>
-        <member name="M:Demkin.Blog.WebApi.Controllers.AuthController.GetJwtToken(System.String,System.String)">
+        <member name="M:Demkin.Blog.WebApi.Controllers.LoginController.GetJwtToken(System.String,System.String)">
             <summary>
             登录获取token信息
             </summary>
             <param name="account">账号</param>
             <param name="password">密码</param>
+            <returns></returns>
+        </member>
+        <member name="T:Demkin.Blog.WebApi.Controllers.MenuController">
+            <summary>
+            菜单模块
+            </summary>
+        </member>
+        <member name="M:Demkin.Blog.WebApi.Controllers.RoleController.Add(Demkin.Blog.DTO.Role.RoleInsertDto)">
+            <summary>
+            添加角色
+            </summary>
+            <param name="entityDto"></param>
             <returns></returns>
         </member>
         <member name="T:Demkin.Blog.WebApi.Controllers.TestController">

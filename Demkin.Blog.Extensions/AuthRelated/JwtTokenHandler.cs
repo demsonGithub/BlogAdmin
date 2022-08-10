@@ -13,6 +13,8 @@ namespace Demkin.Blog.Extensions.AuthRelated
     /// </summary>
     public class JwtTokenHandler
     {
+        private const string CustomPermission = "CustomPermission";
+
         /// <summary>
         /// 根据用户标识生成token,基于Roles或者Name
         /// </summary>

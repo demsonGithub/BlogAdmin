@@ -343,6 +343,13 @@
             列不存在
             </summary>
         </member>
+        <member name="M:Demkin.Blog.DTO.ApiHelper.Success">
+            <summary>
+            成功返回
+            </summary>
+            <param name="obj"></param>
+            <returns></returns>
+        </member>
         <member name="M:Demkin.Blog.DTO.ApiHelper.Success``1(``0)">
             <summary>
             成功返回
@@ -378,6 +385,46 @@
         <member name="P:Demkin.Blog.DTO.Auth.TokenDetailDto.TokenType">
             <summary>
             token类型
+            </summary>
+        </member>
+        <member name="P:Demkin.Blog.DTO.Auth.UserRoleRelationInsertDto.UserId">
+            <summary>
+            用户Id
+            </summary>
+        </member>
+        <member name="P:Demkin.Blog.DTO.Auth.UserRoleRelationInsertDto.RoleId">
+            <summary>
+            角色Id
+            </summary>
+        </member>
+        <member name="P:Demkin.Blog.DTO.Menu.MenuInsertDto.ParentId">
+            <summary>
+            父级菜单的Id
+            </summary>
+        </member>
+        <member name="P:Demkin.Blog.DTO.Menu.MenuInsertDto.MenuName">
+            <summary>
+            菜单名称
+            </summary>
+        </member>
+        <member name="P:Demkin.Blog.DTO.Menu.MenuInsertDto.Description">
+            <summary>
+            描述
+            </summary>
+        </member>
+        <member name="P:Demkin.Blog.DTO.Menu.MenuInsertDto.LinkUrl">
+            <summary>
+            Url
+            </summary>
+        </member>
+        <member name="P:Demkin.Blog.DTO.Menu.MenuInsertDto.Icon">
+            <summary>
+            图标
+            </summary>
+        </member>
+        <member name="P:Demkin.Blog.DTO.Menu.MenuInsertDto.SortNumber">
+            <summary>
+            排序号
             </summary>
         </member>
         <member name="T:Demkin.Blog.DTO.PageModel`1">

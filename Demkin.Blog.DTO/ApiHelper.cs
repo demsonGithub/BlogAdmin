@@ -7,6 +7,20 @@
         /// </summary>
         /// <param name="obj"></param>
         /// <returns></returns>
+        public static ApiResponse<string> Success()
+        {
+            return new ApiResponse<string>()
+            {
+                Code = "00000",
+                Msg = "success",
+            };
+        }
+
+        /// <summary>
+        /// 成功返回
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
         public static ApiResponse<T> Success<T>(T obj)
         {
             return new ApiResponse<T>()

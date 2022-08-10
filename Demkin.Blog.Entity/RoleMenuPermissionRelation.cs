@@ -20,5 +20,15 @@ namespace Demkin.Blog.Entity
         /// 操作按钮、链接等Id
         /// </summary>
         public long PermissionId { get; set; }
+
+        // 做传参作用
+        [SugarColumn(IsIgnore = true)]
+        public Role Role { get; set; }
+
+        [SugarColumn(IsIgnore = true)]
+        public Menu Menu { get; set; }
+
+        [SugarColumn(IsIgnore = true)]
+        public Permission Permission { get; set; }
     }
 }

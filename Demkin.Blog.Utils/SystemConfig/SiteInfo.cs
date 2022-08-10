@@ -46,5 +46,10 @@
         /// 是否接口显示堆栈
         /// </summary>
         public bool IsDisplayStack { get; set; } = false;
+
+        /// <summary>
+        /// 是否开启测试
+        /// </summary>
+        public bool IsOpenTest { get; set; } = false;
     }
 }

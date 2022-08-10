@@ -90,11 +90,10 @@ namespace Demkin.Blog.WebApi.Controllers
             // return ApiHelper.Failed(ApiErrorCode.Server_Error.GetDescription(), ex.Message);
         }
 
+        [Authorize(Policy = "Permission")]
         [HttpGet]
         public async Task<ApiResponse<List<SysUserDetailDto>>> GetSysUserList()
         {
-            _logger.LogInformation("自定义测试Info");
-
             string sqlWhere = "";
 
             string orderByFiled = nameof(SysUserDetailDto.Age);

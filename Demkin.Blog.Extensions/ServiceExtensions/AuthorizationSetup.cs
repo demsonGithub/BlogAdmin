@@ -53,7 +53,7 @@ namespace Demkin.Blog.Extensions.ServiceExtensions
 
             services.AddAuthorization(options =>
             {
-                options.AddPolicy("Permission", policy => policy.Requirements.Add(permissionRequment));
+                options.AddPolicy(PermissionConfig.Name, policy => policy.Requirements.Add(permissionRequment));
             });
 
             // 注入权限处理器
