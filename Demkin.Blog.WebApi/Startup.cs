@@ -4,6 +4,7 @@ using Demkin.Blog.Extensions.Filter;
 using Demkin.Blog.Extensions.Middlewares;
 using Demkin.Blog.Extensions.ServiceExtensions;
 using Demkin.Blog.Utils.ContractResolver;
+using Demkin.Blog.Utils.SystemConfig;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -63,6 +64,8 @@ namespace Demkin.Blog.WebApi
             services.AddAuthentication_JwtSetup();
             // 自定义授权
             services.AddAuthorizationSetup();
+            // Cors
+            services.AddCorsSetup();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -73,6 +76,8 @@ namespace Demkin.Blog.WebApi
                 app.UseDeveloperExceptionPage();
                 app.UseSwaggerMiddleware();
             }
+
+            app.UseCors(ConfigSetting.SiteInfo.CorsPolicyName);
 
             app.UseRouting();
 

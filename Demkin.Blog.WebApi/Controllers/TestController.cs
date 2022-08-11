@@ -82,7 +82,7 @@ namespace Demkin.Blog.WebApi.Controllers
 
                 return ApiHelper.Success(val.ToString());
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 throw;
                 //throw new CustomException(ApiErrorCode.Client_Error.GetDescription(), ex.Message, ex);

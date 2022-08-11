@@ -51,5 +51,15 @@
         /// 是否开启测试
         /// </summary>
         public bool IsOpenTest { get; set; } = false;
+
+        /// <summary>
+        /// 跨域配置名称
+        /// </summary>
+        public string CorsPolicyName { get; set; }
+
+        /// <summary>
+        /// 允许跨域Ip
+        /// </summary>
+        public string AllowCorsIP { get; set; }
     }
 }
