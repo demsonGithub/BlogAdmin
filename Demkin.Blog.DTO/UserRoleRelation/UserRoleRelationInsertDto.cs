@@ -1,4 +1,4 @@
-﻿namespace Demkin.Blog.DTO.Auth
+﻿namespace Demkin.Blog.DTO.UserRoleRelation
 {
     public class UserRoleRelationInsertDto
     {

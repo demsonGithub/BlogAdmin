@@ -1,7 +1,4 @@
 ﻿using AutoMapper;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Demkin.Blog.Extensions.AutoMapper
 {
@@ -16,6 +13,8 @@ namespace Demkin.Blog.Extensions.AutoMapper
             {
                 cfg.AddProfile(new MenuProfile());
                 cfg.AddProfile(new RoleProfile());
+                cfg.AddProfile(new PermissionProfile());
+                cfg.AddProfile(new RoleMenuPermissionRelationProfile());
             });
         }
     }

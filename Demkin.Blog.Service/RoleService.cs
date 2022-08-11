@@ -12,19 +12,5 @@ namespace Demkin.Blog.Service
         public RoleService(IBaseRepository<Role> baseRepository) : base(baseRepository)
         {
         }
-
-        public async Task<Role> AddRole(RoleInsertDto entityDto)
-        {
-            Role entity = new Role
-            {
-                RoleName = entityDto.RoleName,
-                Description = entityDto.Description,
-                SortNumber = entityDto.SortNumber
-            };
-
-            var result = await AddAsync(entity);
-
-            return result;
-        }
     }
 }

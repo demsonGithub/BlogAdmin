@@ -3,6 +3,7 @@ using Demkin.Blog.DbAccess.UnitOfWork;
 using Demkin.Blog.Extensions.Filter;
 using Demkin.Blog.Extensions.Middlewares;
 using Demkin.Blog.Extensions.ServiceExtensions;
+using Demkin.Blog.Utils.ContractResolver;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -34,8 +35,8 @@ namespace Demkin.Blog.WebApi
                 o.Filters.Add(typeof(GlobalExceptionsFilter));
             }).AddNewtonsoftJson(options =>
             {
-                //修改属性名称的序列化方式，首字母小写，即驼峰样式
-                options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+                //修改属性名称的序列化方式，首字母小写，即驼峰样式 ,自定义long返回string防止丢失精准度
+                options.SerializerSettings.ContractResolver = new CustomContractResolver();
                 //如果属性名不希望驼峰样式，那就使用默认，然后在返回实体上标注，eg：[Newtonsoft.Json.JsonProperty("code")]
                 //options.SerializerSettings.ContractResolver = new DefaultContractResolver();
                 //忽略循环引用
@@ -56,7 +57,8 @@ namespace Demkin.Blog.WebApi
             services.AddSqlSugarSetup();
             services.AddScoped<MyDbContext>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
-
+            // AutoMapper
+            services.AddAutoMapperSetup();
             // jwt认证
             services.AddAuthentication_JwtSetup();
             // 自定义授权

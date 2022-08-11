@@ -7,10 +7,5 @@ namespace Demkin.Blog.IService
 {
     public interface IRoleService : IBaseService<Role>
     {
-        /// <summary>
-        /// 增加角色
-        /// </summary>
-        /// <returns></returns>
-        Task<Role> AddRole(RoleInsertDto entityDto);
     }
 }

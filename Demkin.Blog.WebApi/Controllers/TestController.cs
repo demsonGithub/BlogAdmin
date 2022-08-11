@@ -20,6 +20,7 @@ namespace Demkin.Blog.WebApi.Controllers
     /// <summary>
     /// 测试用
     /// </summary>
+    [ApiExplorerSettings(IgnoreApi = true)]
     [Route("api/[controller]/[action]")]
     [ApiController]
     public class TestController : ControllerBase

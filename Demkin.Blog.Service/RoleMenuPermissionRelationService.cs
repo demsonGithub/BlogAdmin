@@ -47,5 +47,25 @@ namespace Demkin.Blog.Service
 
             return roleMenuPermissionListFromDo;
         }
+
+        public async Task<List<RoleMenuPermissionRelation>> GetRoleMenuPermissionMap(long roleId)
+        {
+            var roleMenuPermissionListFromDo = await GetEntityListAsync(item => item.RoleId == roleId);
+            var roleListFromDo = await _roleRepository.GetEntityListAsync();
+            var menuListFromDo = await _menuRepository.GetEntityListAsync();
+            var permissionListFromDo = await _permissionRepository.GetEntityListAsync();
+
+            if (roleMenuPermissionListFromDo.Count > 0)
+            {
+                foreach (var item in roleMenuPermissionListFromDo)
+                {
+                    item.Role = roleListFromDo.FirstOrDefault(r => r.Id == item.RoleId);
+                    item.Menu = menuListFromDo.FirstOrDefault(m => m.Id == item.MenuId);
+                    item.Permission = permissionListFromDo.FirstOrDefault(p => p.Id == item.PermissionId);
+                }
+            }
+
+            return roleMenuPermissionListFromDo;
+        }
     }
 }

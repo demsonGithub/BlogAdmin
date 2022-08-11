@@ -18,8 +18,7 @@ namespace Demkin.Blog.DbAccess.UnitOfWork
             {
                 sqlSugarClient.Aop.OnLogExecuting = (sql, p) =>
                 {
-                    Log.Debug("Sql语句：" + sql);
-                    Log.Debug("参数：" + string.Join(',', p?.Select(item => item.ParameterName + ":" + item.Value)));
+                    Log.Debug("Sql语句：" + sql + Environment.NewLine + "参数：" + string.Join(',', p?.Select(item => item.ParameterName + ":" + item.Value)));
                 };
             }
 

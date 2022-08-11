@@ -1,4 +1,5 @@
-﻿using Demkin.Blog.DTO;
+﻿using AutoMapper;
+using Demkin.Blog.DTO;
 using Demkin.Blog.DTO.Role;
 using Demkin.Blog.Entity;
 using Demkin.Blog.IService;
@@ -15,11 +16,13 @@ namespace Demkin.Blog.WebApi.Controllers
     public class RoleController : ControllerBase
     {
         private readonly ILogger<RoleController> _logger;
+        private readonly IMapper _mapper;
         private readonly IRoleService _roleService;
 
-        public RoleController(ILogger<RoleController> logger, IRoleService roleService)
+        public RoleController(ILogger<RoleController> logger, IMapper mapper, IRoleService roleService)
         {
             _logger = logger;
+            _mapper = mapper;
             _roleService = roleService;
         }
 
@@ -39,7 +42,9 @@ namespace Demkin.Blog.WebApi.Controllers
                 return ApiHelper.Failed<Role>(ApiErrorCode.Client_Error.GetDescription(), "角色已存在", null);
             }
 
-            var result = await _roleService.AddRole(entityDto);
+            var entity = _mapper.Map<Role>(entityDto);
+
+            var result = await _roleService.AddAsync(entity);
 
             if (result == null)
             {

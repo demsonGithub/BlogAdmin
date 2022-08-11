@@ -12,5 +12,11 @@ namespace Demkin.Blog.IService
         /// </summary>
         /// <returns></returns>
         Task<List<RoleMenuPermissionRelation>> GetRoleMenuPermissionMap();
+
+        /// <summary>
+        /// 根据角色Id获取 菜单、接口 映射关系
+        /// </summary>
+        /// <returns></returns>
+        Task<List<RoleMenuPermissionRelation>> GetRoleMenuPermissionMap(long roleId);
     }
 }
