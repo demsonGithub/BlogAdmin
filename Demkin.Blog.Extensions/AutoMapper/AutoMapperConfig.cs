@@ -15,6 +15,7 @@ namespace Demkin.Blog.Extensions.AutoMapper
                 cfg.AddProfile(new RoleProfile());
                 cfg.AddProfile(new PermissionProfile());
                 cfg.AddProfile(new RoleMenuPermissionRelationProfile());
+                cfg.AddProfile(new SysUserProfile());
             });
         }
     }

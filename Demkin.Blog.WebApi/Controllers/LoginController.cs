@@ -13,6 +13,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.IdentityModel.Tokens.Jwt;
 using System.IO;
+using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Xml;
@@ -133,13 +134,10 @@ namespace Demkin.Blog.WebApi.Controllers
                 {
                     return ApiHelper.Failed<TokenDetailDto>(ApiErrorCode.Client_Login.GetDescription(), "账号或密码错误", null);
                 }
+                // 获取角色
+                var roles = await _sysUserService.GetUserRoles(sysUserDo.Id);
+
                 // 声明Claim，配置用户标识
-                //List<Claim> claims = new List<Claim>
-                //{
-                //    new Claim(ClaimTypes.Name, sysUserDo.LoginAccount),
-                //    new Claim(JwtRegisteredClaimNames.Jti, sysUserDo.Id.ToString()),
-                //    new Claim(ClaimTypes.Expiration, DateTime.Now.AddMinutes(ConfigSetting.JwtTokenInfo.ExpiresTime).ToString("yyyy-MM-dd HH:mm:ss")),
-                //};
                 List<Claim> claims = new List<Claim>
                 {
                     new Claim(ClaimTypes.Name,sysUserDo.LoginAccount),
@@ -147,7 +145,7 @@ namespace Demkin.Blog.WebApi.Controllers
                     new Claim(ClaimTypes.Expiration,DateTime.Now.AddMinutes(_requirement.ExpiresTime.Minutes).ToString())
                 };
                 // 添加角色,角色对应的url
-                claims.Add(new Claim(ClaimTypes.Role, "sysadmin"));
+                claims.AddRange(roles.Split(',').Select(x => new Claim(ClaimTypes.Role, x)));
 
                 string token = JwtTokenHandler.BuildJwtToken(claims.ToArray(), _requirement);
 

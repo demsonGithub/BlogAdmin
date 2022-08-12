@@ -1,5 +1,8 @@
-﻿using Demkin.Blog.Utils.SystemConfig;
+﻿using Demkin.Blog.Utils.ClassExtension;
+using Demkin.Blog.Utils.SystemConfig;
 using Microsoft.IdentityModel.Tokens;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
@@ -65,5 +68,56 @@ namespace Demkin.Blog.Extensions.AuthRelated
 
             return token;
         }
+
+        /// <summary>
+        /// 解析JwtToken
+        /// </summary>
+        /// <param name="token"></param>
+        /// <returns></returns>
+        public static TokenDetailModel SerializeJwtToken(string token)
+        {
+            var jwtHandler = new JwtSecurityTokenHandler();
+            TokenDetailModel result = new TokenDetailModel();
+            // token校验
+            if (!string.IsNullOrEmpty(token) && jwtHandler.CanReadToken(token))
+            {
+                JwtSecurityToken jwtToken = jwtHandler.ReadJwtToken(token);
+                jwtToken.Payload.TryGetValue(ClaimTypes.Role, out object role);
+
+                if (role.GetType().Name == "JArray")
+                {
+                    var roles = JsonConvert.DeserializeObject<string[]>(role.ObjToString());
+                    result = new TokenDetailModel
+                    {
+                        JwtId = (jwtToken.Id),
+                        Role = roles
+                    };
+                }
+                else
+                {
+                    var roles = new string[] { role != null ? role.ObjToString() : "" };
+                    result = new TokenDetailModel
+                    {
+                        JwtId = (jwtToken.Id),
+                        Role = roles
+                    };
+                }
+            }
+
+            return result;
+        }
+    }
+
+    public class TokenDetailModel
+    {
+        /// <summary>
+        /// Id
+        /// </summary>
+        public string JwtId { get; set; }
+
+        /// <summary>
+        /// 角色
+        /// </summary>
+        public string[] Role { get; set; }
     }
 }

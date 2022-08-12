@@ -1,12 +1,13 @@
-﻿using Demkin.Blog.DTO.RoleMenuPermissionRelation;
-using Demkin.Blog.Entity;
-using Demkin.Blog.IService.Base;
+﻿using Demkin.Blog.Entity;
+using Demkin.Blog.Repository.Base;
+using System;
 using System.Collections.Generic;
+using System.Text;
 using System.Threading.Tasks;
 
-namespace Demkin.Blog.IService
+namespace Demkin.Blog.Repository
 {
-    public interface IRoleMenuPermissionRelationService : IBaseService<RoleMenuPermissionRelation>
+    public interface IRoleMenuPermissionRelationRepository : IBaseRepository<RoleMenuPermissionRelation>
     {
         /// <summary>
         /// 角色、菜单、接口 映射关系
@@ -18,6 +19,6 @@ namespace Demkin.Blog.IService
         /// 根据角色Id获取 菜单、接口 映射关系
         /// </summary>
         /// <returns></returns>
-        Task<List<RoleMenuPermissionRelationDetailDto>> GetRoleMenuPermissionMap(long roleId);
+        Task<List<RoleMenuPermissionRelation>> GetRoleMenuPermissionMap(long roleId);
     }
 }

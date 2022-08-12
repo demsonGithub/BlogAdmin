@@ -116,12 +116,20 @@
             用户管理
             </summary>
         </member>
-        <member name="M:Demkin.Blog.WebApi.Controllers.UserController.#ctor(Microsoft.Extensions.Logging.ILogger{Demkin.Blog.WebApi.Controllers.UserController},Demkin.Blog.IService.ISysUserService)">
+        <member name="M:Demkin.Blog.WebApi.Controllers.UserController.#ctor(Microsoft.Extensions.Logging.ILogger{Demkin.Blog.WebApi.Controllers.UserController},AutoMapper.IMapper,Demkin.Blog.IService.ISysUserService)">
             <summary>
             构造器
             </summary>
             <param name="logger"></param>
+            <param name="mapper"></param>
             <param name="sysUserService"></param>
+        </member>
+        <member name="M:Demkin.Blog.WebApi.Controllers.UserController.GetUserInfoByToken(System.String)">
+            <summary>
+            根据token获取账号的详情
+            </summary>
+            <param name="token"></param>
+            <returns></returns>
         </member>
         <member name="M:Demkin.Blog.WebApi.Controllers.UserController.GetSysUserList(System.Int32,System.String)">
             <summary>

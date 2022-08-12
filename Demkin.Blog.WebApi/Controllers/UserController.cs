@@ -1,6 +1,9 @@
-﻿using Demkin.Blog.DTO;
+﻿using AutoMapper;
+using Demkin.Blog.DTO;
 using Demkin.Blog.DTO.SysUser;
+using Demkin.Blog.Extensions.AuthRelated;
 using Demkin.Blog.IService;
+using Demkin.Blog.Utils.ClassExtension;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -16,17 +19,48 @@ namespace Demkin.Blog.WebApi.Controllers
     public class UserController : ControllerBase
     {
         private readonly ILogger<UserController> _logger;
+        private readonly IMapper _mapper;
         private readonly ISysUserService _sysUserService;
 
         /// <summary>
         /// 构造器
         /// </summary>
         /// <param name="logger"></param>
+        /// <param name="mapper"></param>
         /// <param name="sysUserService"></param>
-        public UserController(ILogger<UserController> logger, ISysUserService sysUserService)
+        public UserController(ILogger<UserController> logger, IMapper mapper, ISysUserService sysUserService)
         {
             _logger = logger;
+            _mapper = mapper;
             _sysUserService = sysUserService;
+        }
+
+        /// <summary>
+        /// 根据token获取账号的详情
+        /// </summary>
+        /// <param name="token"></param>
+        /// <returns></returns>
+        [HttpGet]
+        public async Task<ApiResponse<SysUserDetailDto>> GetUserInfoByToken(string token)
+        {
+            if (token == null)
+            {
+                return ApiHelper.Failed<SysUserDetailDto>(ApiErrorCode.Client_Error.GetDescription(), "token参数为null", null);
+            }
+            var tokenDetailModel = JwtTokenHandler.SerializeJwtToken(token);
+            if (tokenDetailModel == null || string.IsNullOrEmpty(tokenDetailModel.JwtId))
+            {
+                return ApiHelper.Failed<SysUserDetailDto>(ApiErrorCode.Client_Error.GetDescription(), "token解析失败", null);
+            }
+            var sysUserFromDo = await _sysUserService.GetEntityAsync(tokenDetailModel.JwtId);
+            if (sysUserFromDo == null)
+            {
+                return ApiHelper.Failed<SysUserDetailDto>(ApiErrorCode.Client_Error.GetDescription(), "未查询到该用户", null);
+            }
+            var result = _mapper.Map<SysUserDetailDto>(sysUserFromDo);
+            result.Roles = tokenDetailModel.Role;
+
+            return ApiHelper.Success(result);
         }
 
         /// <summary>
@@ -38,6 +72,8 @@ namespace Demkin.Blog.WebApi.Controllers
         [HttpGet]
         public async Task<ApiResponse<PageModel<SysUserDetailDto>>> GetSysUserList(int currentPage, string key = "")
         {
+            // todo
+
             return ApiHelper.Failed<PageModel<SysUserDetailDto>>("A0001", "发生错误", null);
         }
     }

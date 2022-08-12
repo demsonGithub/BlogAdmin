@@ -5,7 +5,6 @@
         /// <summary>
         /// 成功返回
         /// </summary>
-        /// <param name="obj"></param>
         /// <returns></returns>
         public static ApiResponse<string> Success()
         {

@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Demkin.Blog.DTO;
+using Demkin.Blog.DTO.Auth;
 using Demkin.Blog.DTO.RoleMenuPermissionRelation;
 using Demkin.Blog.DTO.UserRoleRelation;
 using Demkin.Blog.Entity;
@@ -63,11 +64,11 @@ namespace Demkin.Blog.WebApi.Controllers
         /// <param name="roleId"></param>
         /// <returns></returns>
         [HttpGet]
-        public async Task<ApiResponse<List<RoleMenuPermissionRelation>>> GetAuthListByRole(long roleId)
+        public async Task<ApiResponse<List<RoleMenuPermissionRelationDetailDto>>> GetAuthListByRole(long roleId)
         {
             if (roleId == 0)
             {
-                return ApiHelper.Failed<List<RoleMenuPermissionRelation>>(ApiErrorCode.Client_Error.GetDescription(), "角色Id错误", null);
+                return ApiHelper.Failed<List<RoleMenuPermissionRelationDetailDto>>(ApiErrorCode.Client_Error.GetDescription(), "角色Id错误", null);
             }
             var result = await _roleMenuPermissionRelationService.GetRoleMenuPermissionMap(roleId);
 

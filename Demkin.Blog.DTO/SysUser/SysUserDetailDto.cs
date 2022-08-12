@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Demkin.Blog.DTO.SysUser
 {
@@ -10,8 +8,12 @@ namespace Demkin.Blog.DTO.SysUser
 
         public string NickName { get; set; }
 
+        public string Avatar { get; set; }
+
         public int Age { get; set; }
 
         public DateTime CreateTime { get; set; }
+
+        public string[] Roles { get; set; }
     }
 }
