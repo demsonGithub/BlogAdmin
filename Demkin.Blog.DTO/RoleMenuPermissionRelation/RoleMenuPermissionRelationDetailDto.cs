@@ -2,6 +2,8 @@
 {
     public class RoleMenuPermissionRelationDetailDto
     {
+        public long Id { get; set; }
+
         public string RoleName { get; set; }
 
         public string MenuName { get; set; }

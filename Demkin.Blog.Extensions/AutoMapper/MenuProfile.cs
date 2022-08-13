@@ -11,8 +11,10 @@ namespace Demkin.Blog.Extensions.AutoMapper
         /// </summary>
         public MenuProfile()
         {
-            CreateMap<MenuInsertDto, Menu>();
             CreateMap<Menu, MenuInsertDto>();
+            CreateMap<Menu, MenuDetailDto>();
+
+            CreateMap<MenuInsertDto, Menu>();
         }
     }
 }

@@ -9,6 +9,12 @@
             权限分配模块
             </summary>
         </member>
+        <member name="M:Demkin.Blog.WebApi.Controllers.AuthController.GetRoleMenuPermissionList">
+            <summary>
+            获取权限列表
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:Demkin.Blog.WebApi.Controllers.AuthController.AddRoleToUser(Demkin.Blog.DTO.UserRoleRelation.UserRoleRelationInsertDto)">
             <summary>
             给用户添加角色关系
@@ -50,40 +56,62 @@
             <param name="password">密码</param>
             <returns></returns>
         </member>
+        <member name="M:Demkin.Blog.WebApi.Controllers.LoginController.RefreshJwtToken(System.String)">
+            <summary>
+            刷新token
+            </summary>
+            <param name="originalToken"></param>
+            <returns></returns>
+            <exception cref="T:System.NotImplementedException"></exception>
+        </member>
         <member name="T:Demkin.Blog.WebApi.Controllers.MenuController">
             <summary>
-            菜单模块
+            菜单，按钮等模块
             </summary>
         </member>
-        <member name="M:Demkin.Blog.WebApi.Controllers.MenuController.GetAllMenu">
+        <member name="M:Demkin.Blog.WebApi.Controllers.MenuController.GetMenuList">
             <summary>
-            查询所有的菜单列表
+            查询菜单列表
             </summary>
             <returns></returns>
         </member>
-        <member name="M:Demkin.Blog.WebApi.Controllers.MenuController.Add(Demkin.Blog.DTO.Menu.MenuInsertDto)">
+        <member name="M:Demkin.Blog.WebApi.Controllers.MenuController.AddMenu(Demkin.Blog.DTO.Menu.MenuInsertDto)">
             <summary>
             添加新菜单
             </summary>
             <param name="entityDto"></param>
             <returns></returns>
         </member>
-        <member name="T:Demkin.Blog.WebApi.Controllers.PermissionController">
+        <member name="M:Demkin.Blog.WebApi.Controllers.MenuController.DeleteMenuById(System.Int64)">
             <summary>
-            请求处理 等模块
+            根据Id删除菜单
             </summary>
+            <param name="menuId"></param>
+            <returns></returns>
         </member>
-        <member name="M:Demkin.Blog.WebApi.Controllers.PermissionController.GetAllPermission">
+        <member name="M:Demkin.Blog.WebApi.Controllers.MenuController.DeleteMenuByIdList(System.Collections.Generic.List{System.Int64})">
             <summary>
-            查看所有的接口
+            根据Id列表删除菜单
             </summary>
             <returns></returns>
         </member>
-        <member name="M:Demkin.Blog.WebApi.Controllers.PermissionController.Add(Demkin.Blog.DTO.Permission.PermissionInsertDto)">
+        <member name="M:Demkin.Blog.WebApi.Controllers.MenuController.GetPermissionList">
+            <summary>
+            查看按钮列表
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Demkin.Blog.WebApi.Controllers.MenuController.AddPermission(Demkin.Blog.DTO.Permission.PermissionInsertDto)">
             <summary>
             新增按钮、链接
             </summary>
             <param name="entityDto"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Demkin.Blog.WebApi.Controllers.RoleController.GetRoleList">
+            <summary>
+            获取角色列表
+            </summary>
             <returns></returns>
         </member>
         <member name="M:Demkin.Blog.WebApi.Controllers.RoleController.Add(Demkin.Blog.DTO.Role.RoleInsertDto)">
@@ -131,7 +159,7 @@
             <param name="token"></param>
             <returns></returns>
         </member>
-        <member name="M:Demkin.Blog.WebApi.Controllers.UserController.GetSysUserList(System.Int32,System.String)">
+        <member name="M:Demkin.Blog.WebApi.Controllers.UserController.GetUserList(System.Int32,System.String)">
             <summary>
             获取用户列表
             </summary>

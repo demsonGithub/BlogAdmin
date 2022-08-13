@@ -1,8 +1,10 @@
 ﻿using Demkin.Blog.DbAccess.UnitOfWork;
 using Demkin.Blog.Entity;
 using Demkin.Blog.Repository.Base;
+using SqlSugar;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Threading.Tasks;
 
 namespace Demkin.Blog.Repository
@@ -13,13 +15,20 @@ namespace Demkin.Blog.Repository
         {
         }
 
-        public Task<List<RoleMenuPermissionRelation>> GetRoleMenuPermissionMap()
+        public async Task<List<RoleMenuPermissionRelation>> GetRoleMenuPermissionMap()
         {
-            throw new NotImplementedException();
+            var result = await Db.Queryable<RoleMenuPermissionRelation>()
+                .Includes(r => r.Role)
+                .Includes(m => m.Menu)
+                .Includes(p => p.Permission)
+                            .ToListAsync();
+
+            return result;
         }
 
         public Task<List<RoleMenuPermissionRelation>> GetRoleMenuPermissionMap(long roleId)
         {
+            throw new NotImplementedException();
         }
     }
 }

@@ -386,6 +386,31 @@
             token类型
             </summary>
         </member>
+        <member name="P:Demkin.Blog.DTO.Menu.MenuDetailDto.ParentId">
+            <summary>
+            父级菜单的Id
+            </summary>
+        </member>
+        <member name="P:Demkin.Blog.DTO.Menu.MenuDetailDto.MenuName">
+            <summary>
+            菜单名称
+            </summary>
+        </member>
+        <member name="P:Demkin.Blog.DTO.Menu.MenuDetailDto.Description">
+            <summary>
+            描述
+            </summary>
+        </member>
+        <member name="P:Demkin.Blog.DTO.Menu.MenuDetailDto.LinkUrl">
+            <summary>
+            Url
+            </summary>
+        </member>
+        <member name="P:Demkin.Blog.DTO.Menu.MenuDetailDto.Icon">
+            <summary>
+            图标
+            </summary>
+        </member>
         <member name="P:Demkin.Blog.DTO.Menu.MenuInsertDto.ParentId">
             <summary>
             父级菜单的Id
@@ -444,6 +469,26 @@
         <member name="P:Demkin.Blog.DTO.PageModel`1.Data">
             <summary>
             返回的数据
+            </summary>
+        </member>
+        <member name="P:Demkin.Blog.DTO.Permission.PermissionDetailDto.ActionName">
+            <summary>
+            操作显示名称
+            </summary>
+        </member>
+        <member name="P:Demkin.Blog.DTO.Permission.PermissionDetailDto.ActionUrl">
+            <summary>
+            路由操作地址
+            </summary>
+        </member>
+        <member name="P:Demkin.Blog.DTO.Permission.PermissionDetailDto.MenuId">
+            <summary>
+            菜单模块的Id
+            </summary>
+        </member>
+        <member name="P:Demkin.Blog.DTO.Permission.PermissionDetailDto.Description">
+            <summary>
+            描述
             </summary>
         </member>
         <member name="P:Demkin.Blog.DTO.Permission.PermissionInsertDto.ActionName">

@@ -37,6 +37,20 @@ namespace Demkin.Blog.WebApi.Controllers
         }
 
         /// <summary>
+        /// 获取权限列表
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public async Task<ApiResponse<List<RoleMenuPermissionRelationDetailDto>>> GetRoleMenuPermissionList()
+        {
+            var roleMenuPermissionRelationListFromDo = await _roleMenuPermissionRelationService.GetRoleMenuPermissionMap();
+
+            var result = _mapper.Map<List<RoleMenuPermissionRelationDetailDto>>(roleMenuPermissionRelationListFromDo);
+
+            return ApiHelper.Success(result);
+        }
+
+        /// <summary>
         /// 给用户添加角色关系
         /// </summary>
         /// <param name="entityDto"></param>

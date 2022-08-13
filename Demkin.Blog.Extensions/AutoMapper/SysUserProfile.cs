@@ -9,6 +9,7 @@ namespace Demkin.Blog.Extensions.AutoMapper
         public SysUserProfile()
         {
             CreateMap<SysUser, SysUserDetailDto>();
+
             CreateMap<SysUserDetailDto, SysUser>();
         }
     }

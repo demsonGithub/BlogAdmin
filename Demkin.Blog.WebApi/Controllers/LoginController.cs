@@ -163,5 +163,18 @@ namespace Demkin.Blog.WebApi.Controllers
                 return ApiHelper.Failed<TokenDetailDto>(ApiErrorCode.Server_Error.GetDescription(), ex.Message, null);
             }
         }
+
+        /// <summary>
+        /// 刷新token
+        /// </summary>
+        /// <param name="originalToken"></param>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
+        [HttpGet]
+        public async Task<ApiResponse<TokenDetailDto>> RefreshJwtToken(string originalToken)
+        {
+            // todo 刷新token
+            throw new NotImplementedException();
+        }
     }
 }

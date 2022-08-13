@@ -4,9 +4,9 @@ using Demkin.Blog.DTO.Role;
 using Demkin.Blog.Entity;
 using Demkin.Blog.IService;
 using Demkin.Blog.Utils.ClassExtension;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Demkin.Blog.WebApi.Controllers
@@ -24,6 +24,20 @@ namespace Demkin.Blog.WebApi.Controllers
             _logger = logger;
             _mapper = mapper;
             _roleService = roleService;
+        }
+
+        /// <summary>
+        /// 获取角色列表
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public async Task<ApiResponse<List<RoleDetailDto>>> GetRoleList()
+        {
+            var roleListFromDo = await _roleService.GetEntityListAsync();
+
+            var result = _mapper.Map<List<RoleDetailDto>>(roleListFromDo);
+
+            return ApiHelper.Success(result);
         }
 
         /// <summary>

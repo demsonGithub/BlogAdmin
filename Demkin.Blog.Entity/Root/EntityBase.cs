@@ -14,6 +14,6 @@ namespace Demkin.Blog.Entity.Root
         /// ID主键
         /// </summary>
         [SugarColumn(IsNullable = false, IsPrimaryKey = true)]
-        public long Id { get; protected set; }
+        public long Id { get; private set; }
     }
 }

@@ -8,9 +8,9 @@ namespace Demkin.Blog.Extensions.AutoMapper
     {
         public PermissionProfile()
         {
-            CreateMap<PermissionInsertDto, Permission>();
-
             CreateMap<Permission, PermissionInsertDto>();
+
+            CreateMap<PermissionInsertDto, Permission>();
         }
     }
 }

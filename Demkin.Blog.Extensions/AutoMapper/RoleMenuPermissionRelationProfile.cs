@@ -9,6 +9,10 @@ namespace Demkin.Blog.Extensions.AutoMapper
         public RoleMenuPermissionRelationProfile()
         {
             CreateMap<RoleMenuPermissionRelation, RoleMenuPermissionRelationInsertDto>();
+            CreateMap<RoleMenuPermissionRelation, RoleMenuPermissionRelationDetailDto>().ForMember(td => td.RoleName, option => option.MapFrom(ts => ts.Role.RoleName))
+                .ForMember(td => td.MenuName, option => option.MapFrom(ts => ts.Menu.MenuName))
+                .ForMember(td => td.LinkUrl, option => option.MapFrom(ts => ts.Menu.LinkUrl));
+
             CreateMap<RoleMenuPermissionRelationInsertDto, RoleMenuPermissionRelation>();
         }
     }

@@ -4,7 +4,6 @@ using Demkin.Blog.DTO.SysUser;
 using Demkin.Blog.Extensions.AuthRelated;
 using Demkin.Blog.IService;
 using Demkin.Blog.Utils.ClassExtension;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
@@ -70,7 +69,7 @@ namespace Demkin.Blog.WebApi.Controllers
         /// <param name="key"></param>
         /// <returns></returns>
         [HttpGet]
-        public async Task<ApiResponse<PageModel<SysUserDetailDto>>> GetSysUserList(int currentPage, string key = "")
+        public async Task<ApiResponse<PageModel<SysUserDetailDto>>> GetUserList(int currentPage, string key = "")
         {
             // todo
 
