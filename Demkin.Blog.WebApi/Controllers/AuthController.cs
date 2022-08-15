@@ -6,10 +6,12 @@ using Demkin.Blog.Entity;
 using Demkin.Blog.Extensions.AuthRelated;
 using Demkin.Blog.IService;
 using Demkin.Blog.Utils.ClassExtension;
+using Demkin.Blog.Utils.Help;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 
 namespace Demkin.Blog.WebApi.Controllers
@@ -40,7 +42,7 @@ namespace Demkin.Blog.WebApi.Controllers
         }
 
         /// <summary>
-        /// 根据token查询能访问的菜单
+        /// 根据token查询能访问的菜单树
         /// </summary>
         /// <returns></returns>
         [HttpGet]
@@ -59,9 +61,11 @@ namespace Demkin.Blog.WebApi.Controllers
 
             var menuFromDo = await _roleMenuPermissionRelationService.GetRoleMenuPermissionMap(roleIds);
 
-            var result = _mapper.Map<List<RoleMenuPermissionRelationDetailDto>>(menuFromDo);
+            var result = FormatListToTree(menuFromDo, 0);
 
-            return ApiHelper.Success(menuFromDo);
+            //var result = _mapper.Map<List<RoleMenuPermissionRelationDetailDto>>(menuFromDo);
+
+            return ApiHelper.Success(result);
         }
 
         /// <summary>
@@ -94,11 +98,11 @@ namespace Demkin.Blog.WebApi.Controllers
         [HttpPost]
         public async Task<ApiResponse<string>> AddPermissionToRole([FromBody] RoleMenuPermissionRelationInsertDto entityDto)
         {
-            if (entityDto.RoleId == 0)
+            if (string.IsNullOrEmpty(entityDto.RoleId))
             {
                 return ApiHelper.Failed(ApiErrorCode.Client_Error.GetDescription(), "角色Id错误");
             }
-            if (entityDto.MenuPermissionId == 0)
+            if (string.IsNullOrEmpty(entityDto.MenuPermissionId))
             {
                 return ApiHelper.Failed(ApiErrorCode.Client_Error.GetDescription(), "菜单或按钮Id错误");
             }
@@ -112,6 +116,26 @@ namespace Demkin.Blog.WebApi.Controllers
                 ApiHelper.Failed(ApiErrorCode.Server_Error.GetDescription(), "发生了错误");
             }
             return ApiHelper.Success();
+        }
+
+        private List<RoleMenuPermissionRelationDetailDto> FormatListToTree(List<RoleMenuPermissionRelationDetailDto> sourceList, long pId)
+        {
+            var targetList = new List<RoleMenuPermissionRelationDetailDto>();
+            // 找出所有的父节点
+            var pItems = sourceList.Where(item => item.ParentId == pId).ToList();
+
+            // 根据父节点去递归寻找字节的
+
+            foreach (var item in pItems)
+            {
+                var childItems = FormatListToTree(sourceList, item.MenuPermissionId);
+
+                item.Children = childItems;
+
+                targetList.Add(item);
+            }
+
+            return targetList;
         }
     }
 }

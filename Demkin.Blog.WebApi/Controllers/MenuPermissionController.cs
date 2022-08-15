@@ -24,20 +24,14 @@ namespace Demkin.Blog.WebApi.Controllers
         private readonly ILogger<MenuPermissionController> _logger;
         private readonly IMapper _mapper;
         private readonly IMenuPermissionService _menuPermissionService;
-        private readonly IRoleMenuPermissionRelationService _roleMenuPermissionRelationService;
-        private readonly IRoleService _roleService;
 
         public MenuPermissionController(ILogger<MenuPermissionController> logger, IMapper mapper,
-            IMenuPermissionService menuPermissionService,
-            IRoleMenuPermissionRelationService roleMenuPermissionRelationService,
-            IRoleService roleService
+            IMenuPermissionService menuPermissionService
             )
         {
             _logger = logger;
             _mapper = mapper;
             _menuPermissionService = menuPermissionService;
-            _roleMenuPermissionRelationService = roleMenuPermissionRelationService;
-            _roleService = roleService;
         }
 
         /// <summary>

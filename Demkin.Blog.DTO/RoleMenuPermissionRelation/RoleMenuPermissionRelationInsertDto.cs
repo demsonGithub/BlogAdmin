@@ -5,11 +5,11 @@
         /// <summary>
         /// 角色Id
         /// </summary>
-        public long RoleId { get; set; }
+        public string RoleId { get; set; }
 
         /// <summary>
         /// 菜单Id
         /// </summary>
-        public long MenuPermissionId { get; set; }
+        public string MenuPermissionId { get; set; }
     }
 }

@@ -6,6 +6,8 @@ namespace Demkin.Blog.DTO.RoleMenuPermissionRelation
     {
         public long Id { get; set; }
 
+        public long MenuPermissionId { get; set; }
+
         public long ParentId { get; set; }
 
         public string RoleName { get; set; }
