@@ -74,6 +74,66 @@ namespace Demkin.Blog.CodeFirst
                     }
 
                     #endregion SysUserInfo
+
+                    #region Role
+
+                    if (!await myDbContext.Db.Queryable<Role>().AnyAsync())
+                    {
+                        var data = NPOIHelper.XlsToList<Role>(Path.Combine(_initBasicDataFolder, "Role.xls"));
+                        myDbContext.GetEntityDB<Role>().InsertRange(data);
+                        Console.WriteLine("表：Role 数据初始化成功......");
+                    }
+                    else
+                    {
+                        Console.WriteLine("表：Role 初始化数据失败!");
+                    }
+
+                    #endregion Role
+
+                    #region UserRoleRelation
+
+                    if (!await myDbContext.Db.Queryable<UserRoleRelation>().AnyAsync())
+                    {
+                        var data = NPOIHelper.XlsToList<UserRoleRelation>(Path.Combine(_initBasicDataFolder, "UserRoleRelation.xls"));
+                        myDbContext.GetEntityDB<UserRoleRelation>().InsertRange(data);
+                        Console.WriteLine("表：UserRoleRelation 数据初始化成功......");
+                    }
+                    else
+                    {
+                        Console.WriteLine("表：UserRoleRelation 初始化数据失败!");
+                    }
+
+                    #endregion UserRoleRelation
+
+                    #region MenuPermission
+
+                    if (!await myDbContext.Db.Queryable<MenuPermission>().AnyAsync())
+                    {
+                        var data = NPOIHelper.XlsToList<MenuPermission>(Path.Combine(_initBasicDataFolder, "MenuPermission.xls"));
+                        myDbContext.GetEntityDB<MenuPermission>().InsertRange(data);
+                        Console.WriteLine("表：Role 数据初始化成功......");
+                    }
+                    else
+                    {
+                        Console.WriteLine("表：Role 初始化数据失败!");
+                    }
+
+                    #endregion MenuPermission
+
+                    #region RoleMenuPermissionRelation
+
+                    if (!await myDbContext.Db.Queryable<RoleMenuPermissionRelation>().AnyAsync())
+                    {
+                        var data = NPOIHelper.XlsToList<RoleMenuPermissionRelation>(Path.Combine(_initBasicDataFolder, "RoleMenuPermissionRelation.xls"));
+                        myDbContext.GetEntityDB<RoleMenuPermissionRelation>().InsertRange(data);
+                        Console.WriteLine("表：RoleMenuPermissionRelation 数据初始化成功......");
+                    }
+                    else
+                    {
+                        Console.WriteLine("表：RoleMenuPermissionRelation 初始化数据失败!");
+                    }
+
+                    #endregion RoleMenuPermissionRelation
                 }
             }
             catch (Exception)

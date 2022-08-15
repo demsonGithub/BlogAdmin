@@ -11,11 +11,11 @@ namespace Demkin.Blog.Extensions.AutoMapper
         {
             return new MapperConfiguration(cfg =>
             {
-                cfg.AddProfile(new MenuProfile());
-                cfg.AddProfile(new RoleProfile());
-                cfg.AddProfile(new PermissionProfile());
-                cfg.AddProfile(new RoleMenuPermissionRelationProfile());
                 cfg.AddProfile(new SysUserProfile());
+                cfg.AddProfile(new RoleProfile());
+
+                cfg.AddProfile(new MenuPermissionProfile());
+                cfg.AddProfile(new RoleMenuPermissionRelationProfile());
             });
         }
     }

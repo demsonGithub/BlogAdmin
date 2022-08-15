@@ -1,6 +1,10 @@
-﻿namespace Demkin.Blog.DTO.Permission
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace Demkin.Blog.DTO.MenuPermission
 {
-    public class PermissionDetailDto
+    public class PermissionInsertDto
     {
         /// <summary>
         /// 操作显示名称

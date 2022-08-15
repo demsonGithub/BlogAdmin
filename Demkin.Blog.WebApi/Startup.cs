@@ -90,7 +90,7 @@ namespace Demkin.Blog.WebApi
                 endpoints.MapControllers();
             });
 
-            // app.UseInitBasicDataMiddleware(myDbContext, env.WebRootPath);
+            app.UseInitBasicDataMiddleware(myDbContext, env.WebRootPath);
         }
     }
 }

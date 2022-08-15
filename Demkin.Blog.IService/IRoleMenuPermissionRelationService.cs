@@ -18,6 +18,6 @@ namespace Demkin.Blog.IService
         /// 根据角色Id获取 菜单、接口 映射关系
         /// </summary>
         /// <returns></returns>
-        Task<List<RoleMenuPermissionRelationDetailDto>> GetRoleMenuPermissionMap(long roleId);
+        Task<List<RoleMenuPermissionRelationDetailDto>> GetRoleMenuPermissionMap(List<long> roleIds);
     }
 }

@@ -3,7 +3,7 @@ using Demkin.Blog.IService.Base;
 
 namespace Demkin.Blog.IService
 {
-    public interface IMenuService : IBaseService<Menu>
+    public interface IMenuPermissionService : IBaseService<MenuPermission>
     {
     }
 }

@@ -1,15 +1,15 @@
 ﻿using AutoMapper;
 using Demkin.Blog.DTO;
-using Demkin.Blog.DTO.Auth;
 using Demkin.Blog.DTO.RoleMenuPermissionRelation;
 using Demkin.Blog.DTO.UserRoleRelation;
 using Demkin.Blog.Entity;
+using Demkin.Blog.Extensions.AuthRelated;
 using Demkin.Blog.IService;
 using Demkin.Blog.Utils.ClassExtension;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Demkin.Blog.WebApi.Controllers
@@ -25,29 +25,43 @@ namespace Demkin.Blog.WebApi.Controllers
         private readonly IMapper _mapper;
         private readonly IUserRoleRelationService _userRoleRelationService;
         private readonly IRoleMenuPermissionRelationService _roleMenuPermissionRelationService;
+        private readonly IRoleService _roleService;
 
         public AuthController(ILogger<AuthController> logger, IMapper mapper,
             IUserRoleRelationService userRoleRelationService,
-            IRoleMenuPermissionRelationService roleMenuPermissionRelationService)
+            IRoleMenuPermissionRelationService roleMenuPermissionRelationService,
+            IRoleService roleService)
         {
             _logger = logger;
             _mapper = mapper;
             _userRoleRelationService = userRoleRelationService;
             _roleMenuPermissionRelationService = roleMenuPermissionRelationService;
+            _roleService = roleService;
         }
 
         /// <summary>
-        /// 获取权限列表
+        /// 根据token查询能访问的菜单
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public async Task<ApiResponse<List<RoleMenuPermissionRelationDetailDto>>> GetRoleMenuPermissionList()
+        public async Task<ApiResponse<List<RoleMenuPermissionRelationDetailDto>>> GetMenuListByToken(string token)
         {
-            var roleMenuPermissionRelationListFromDo = await _roleMenuPermissionRelationService.GetRoleMenuPermissionMap();
+            if (string.IsNullOrEmpty(token))
+            {
+                return ApiHelper.Failed<List<RoleMenuPermissionRelationDetailDto>>(ApiErrorCode.Client_Error.GetDescription(), "token不能为空", null);
+            }
 
-            var result = _mapper.Map<List<RoleMenuPermissionRelationDetailDto>>(roleMenuPermissionRelationListFromDo);
+            var tokenDetailModel = JwtTokenHandler.SerializeJwtToken(token);
 
-            return ApiHelper.Success(result);
+            var userRoleList = tokenDetailModel.Role;
+
+            var roleIds = await _roleService.GetRoleIdListByName(userRoleList.ToList());
+
+            var menuFromDo = await _roleMenuPermissionRelationService.GetRoleMenuPermissionMap(roleIds);
+
+            var result = _mapper.Map<List<RoleMenuPermissionRelationDetailDto>>(menuFromDo);
+
+            return ApiHelper.Success(menuFromDo);
         }
 
         /// <summary>
@@ -73,23 +87,6 @@ namespace Demkin.Blog.WebApi.Controllers
         }
 
         /// <summary>
-        /// 获取权限根据角色Id
-        /// </summary>
-        /// <param name="roleId"></param>
-        /// <returns></returns>
-        [HttpGet]
-        public async Task<ApiResponse<List<RoleMenuPermissionRelationDetailDto>>> GetAuthListByRole(long roleId)
-        {
-            if (roleId == 0)
-            {
-                return ApiHelper.Failed<List<RoleMenuPermissionRelationDetailDto>>(ApiErrorCode.Client_Error.GetDescription(), "角色Id错误", null);
-            }
-            var result = await _roleMenuPermissionRelationService.GetRoleMenuPermissionMap(roleId);
-
-            return ApiHelper.Success(result);
-        }
-
-        /// <summary>
         /// 给角色添加菜单、请求处理权限
         /// </summary>
         /// <param name="entityDto"></param>
@@ -101,9 +98,9 @@ namespace Demkin.Blog.WebApi.Controllers
             {
                 return ApiHelper.Failed(ApiErrorCode.Client_Error.GetDescription(), "角色Id错误");
             }
-            if (entityDto.MenuId == 0)
+            if (entityDto.MenuPermissionId == 0)
             {
-                return ApiHelper.Failed(ApiErrorCode.Client_Error.GetDescription(), "菜单Id错误");
+                return ApiHelper.Failed(ApiErrorCode.Client_Error.GetDescription(), "菜单或按钮Id错误");
             }
 
             var entity = _mapper.Map<RoleMenuPermissionRelation>(entityDto);

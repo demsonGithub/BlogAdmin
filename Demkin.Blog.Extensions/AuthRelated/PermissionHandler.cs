@@ -49,7 +49,7 @@ namespace Demkin.Blog.Extensions.AuthRelated
                                       select new PermissionItem
                                       {
                                           Role = item.RoleId.ToString(),
-                                          RequestUrl = item.PermissionId.ToString()
+                                          RequestUrl = item.MenuPermission.LinkUrl
                                       }).ToList();
             }
 

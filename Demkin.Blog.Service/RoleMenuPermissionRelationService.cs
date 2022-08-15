@@ -1,4 +1,5 @@
-﻿using Demkin.Blog.DTO.RoleMenuPermissionRelation;
+﻿using AutoMapper;
+using Demkin.Blog.DTO.RoleMenuPermissionRelation;
 using Demkin.Blog.Entity;
 using Demkin.Blog.IService;
 using Demkin.Blog.Repository;
@@ -14,12 +15,15 @@ namespace Demkin.Blog.Service
 {
     public class RoleMenuPermissionRelationService : BaseService<RoleMenuPermissionRelation>, IRoleMenuPermissionRelationService
     {
+        private readonly IMapper _mapper;
         private readonly IRoleMenuPermissionRelationRepository _roleMenuPermissionRelationRepository;
 
         public RoleMenuPermissionRelationService(
+            IMapper mapper,
             IRoleMenuPermissionRelationRepository roleMenuPermissionRelationRepository
             ) : base(roleMenuPermissionRelationRepository)
         {
+            _mapper = mapper;
             _roleMenuPermissionRelationRepository = roleMenuPermissionRelationRepository;
         }
 
@@ -30,11 +34,13 @@ namespace Demkin.Blog.Service
             return result;
         }
 
-        public async Task<List<RoleMenuPermissionRelationDetailDto>> GetRoleMenuPermissionMap(long roleId)
+        public async Task<List<RoleMenuPermissionRelationDetailDto>> GetRoleMenuPermissionMap(List<long> roleIds)
         {
-            throw new NotImplementedException();
-            //var result = await Db
-            //return result;
+            var roleMenuPermissionMapFromDo = await _roleMenuPermissionRelationRepository.GetRoleMenuPermissionMap(roleIds);
+
+            var result = _mapper.Map<List<RoleMenuPermissionRelationDetailDto>>(roleMenuPermissionMapFromDo);
+
+            return result;
         }
     }
 }

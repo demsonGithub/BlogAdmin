@@ -1,11 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Demkin.Blog.DTO.Menu
+﻿namespace Demkin.Blog.DTO.MenuPermission
 {
     public class MenuDetailDto
     {
+        /// <summary>
+        /// Id
+        /// </summary>
+        public long Id { get; set; }
+
         /// <summary>
         /// 父级菜单的Id
         /// </summary>
@@ -17,11 +18,6 @@ namespace Demkin.Blog.DTO.Menu
         public string MenuName { get; set; }
 
         /// <summary>
-        /// 描述
-        /// </summary>
-        public string Description { get; set; }
-
-        /// <summary>
         /// Url
         /// </summary>
         public string LinkUrl { get; set; }
@@ -30,5 +26,10 @@ namespace Demkin.Blog.DTO.Menu
         /// 图标
         /// </summary>
         public string Icon { get; set; }
+
+        /// <summary>
+        /// 描述
+        /// </summary>
+        public string Description { get; set; }
     }
 }

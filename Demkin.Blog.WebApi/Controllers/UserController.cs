@@ -7,6 +7,7 @@ using Demkin.Blog.Utils.ClassExtension;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
+using System;
 
 namespace Demkin.Blog.WebApi.Controllers
 {
@@ -72,8 +73,7 @@ namespace Demkin.Blog.WebApi.Controllers
         public async Task<ApiResponse<PageModel<SysUserDetailDto>>> GetUserList(int currentPage, string key = "")
         {
             // todo
-
-            return ApiHelper.Failed<PageModel<SysUserDetailDto>>("A0001", "发生错误", null);
+            throw new NotImplementedException();
         }
     }
 }
