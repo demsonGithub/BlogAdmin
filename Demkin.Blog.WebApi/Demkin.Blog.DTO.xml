@@ -386,32 +386,32 @@
             token类型
             </summary>
         </member>
-        <member name="P:Demkin.Blog.DTO.MenuPermission.MenuDetailDto.Id">
+        <member name="P:Demkin.Blog.DTO.MenuPermission.MenuPermissionDetailDto.Id">
             <summary>
             Id
             </summary>
         </member>
-        <member name="P:Demkin.Blog.DTO.MenuPermission.MenuDetailDto.ParentId">
+        <member name="P:Demkin.Blog.DTO.MenuPermission.MenuPermissionDetailDto.ParentId">
             <summary>
             父级菜单的Id
             </summary>
         </member>
-        <member name="P:Demkin.Blog.DTO.MenuPermission.MenuDetailDto.MenuName">
+        <member name="P:Demkin.Blog.DTO.MenuPermission.MenuPermissionDetailDto.MenuName">
             <summary>
             菜单名称
             </summary>
         </member>
-        <member name="P:Demkin.Blog.DTO.MenuPermission.MenuDetailDto.LinkUrl">
+        <member name="P:Demkin.Blog.DTO.MenuPermission.MenuPermissionDetailDto.LinkUrl">
             <summary>
             Url
             </summary>
         </member>
-        <member name="P:Demkin.Blog.DTO.MenuPermission.MenuDetailDto.Icon">
+        <member name="P:Demkin.Blog.DTO.MenuPermission.MenuPermissionDetailDto.Icon">
             <summary>
             图标
             </summary>
         </member>
-        <member name="P:Demkin.Blog.DTO.MenuPermission.MenuDetailDto.Description">
+        <member name="P:Demkin.Blog.DTO.MenuPermission.MenuPermissionDetailDto.Description">
             <summary>
             描述
             </summary>

@@ -25,12 +25,6 @@ namespace Demkin.Blog.Entity
         public string LinkUrl { get; set; }
 
         /// <summary>
-        /// 路由操作地址
-        /// </summary>
-        [SugarColumn(IsNullable = true, Length = 255)]
-        public string ActionUrl { get; set; }
-
-        /// <summary>
         /// 图标
         /// </summary>
         [SugarColumn(IsNullable = true)]

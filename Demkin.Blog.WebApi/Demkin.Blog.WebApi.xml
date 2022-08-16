@@ -15,6 +15,12 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:Demkin.Blog.WebApi.Controllers.AuthController.GetMenuListByRoleName(System.Collections.Generic.List{System.String})">
+            <summary>
+            根据角色名称查询能访问的菜单树
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:Demkin.Blog.WebApi.Controllers.AuthController.AddRoleToUser(Demkin.Blog.DTO.UserRoleRelation.UserRoleRelationInsertDto)">
             <summary>
             给用户添加角色关系
@@ -82,7 +88,7 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:Demkin.Blog.WebApi.Controllers.MenuPermissionController.GetMenuList">
+        <member name="M:Demkin.Blog.WebApi.Controllers.MenuPermissionController.GetMenuPermissionList">
             <summary>
             查询目录以及菜单列表
             </summary>

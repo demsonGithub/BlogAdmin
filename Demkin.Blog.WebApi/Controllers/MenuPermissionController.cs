@@ -104,11 +104,13 @@ namespace Demkin.Blog.WebApi.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public async Task<ApiResponse<List<MenuDetailDto>>> GetMenuList()
+        public async Task<ApiResponse<List<MenuPermissionDetailDto>>> GetMenuPermissionList()
         {
-            var menuFromDo = await _menuPermissionService.GetEntityListAsync(item => (item.LinkType == LinkType.Catalog || item.LinkType == LinkType.Menu) && item.Status == Status.Enable);
+            var menuFromDo = await _menuPermissionService.GetEntityListAsync(item => item.Status == Status.Enable);
 
-            var result = _mapper.Map<List<MenuDetailDto>>(menuFromDo);
+            var result = _mapper.Map<List<MenuPermissionDetailDto>>(menuFromDo);
+
+            result = FormatListToTree(result, 0);
 
             return ApiHelper.Success(result);
         }
@@ -118,16 +120,41 @@ namespace Demkin.Blog.WebApi.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public async Task<ApiResponse<List<MenuDetailDto>>> GetMenuListByParentId(long pId)
+        public async Task<ApiResponse<List<MenuPermissionDetailDto>>> GetMenuListByParentId(long pId)
         {
             var menuFromDo = await _menuPermissionService.GetEntityListAsync(
                 item => item.ParentId == pId
                 && (item.LinkType == LinkType.Catalog || item.LinkType == LinkType.Menu)
                 && item.Status == Status.Enable);
 
-            var result = _mapper.Map<List<MenuDetailDto>>(menuFromDo);
+            var result = _mapper.Map<List<MenuPermissionDetailDto>>(menuFromDo);
 
             return ApiHelper.Success(result);
         }
+
+        #region 私有方法
+
+        private List<MenuPermissionDetailDto> FormatListToTree(
+            List<MenuPermissionDetailDto> sourceList, long pId)
+        {
+            var targetList = new List<MenuPermissionDetailDto>();
+            // 找出所有的父节点
+            var pItems = sourceList.Where(item => item.ParentId == pId).ToList();
+
+            // 根据父节点去递归寻找字节的
+
+            foreach (var item in pItems)
+            {
+                var childItems = FormatListToTree(sourceList, item.Id);
+
+                item.Children = childItems;
+
+                targetList.Add(item);
+            }
+
+            return targetList;
+        }
+
+        #endregion 私有方法
     }
 }

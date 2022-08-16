@@ -22,4 +22,8 @@
     <ProjectReference Include="..\Demkin.Blog.Utils\Demkin.Blog.Utils.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="PublicFunction\" />
+  </ItemGroup>
+
 </Project>

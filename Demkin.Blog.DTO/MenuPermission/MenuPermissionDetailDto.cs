@@ -1,6 +1,8 @@
-﻿namespace Demkin.Blog.DTO.MenuPermission
+﻿using System.Collections.Generic;
+
+namespace Demkin.Blog.DTO.MenuPermission
 {
-    public class MenuDetailDto
+    public class MenuPermissionDetailDto
     {
         /// <summary>
         /// Id
@@ -31,5 +33,7 @@
         /// 描述
         /// </summary>
         public string Description { get; set; }
+
+        public List<MenuPermissionDetailDto> Children { get; set; }
     }
 }

@@ -11,11 +11,11 @@ namespace Demkin.Blog.Extensions.AutoMapper
         /// </summary>
         public MenuPermissionProfile()
         {
-            CreateMap<MenuPermission, MenuDetailDto>().ForMember(td => td.MenuName, opt => opt.MapFrom(ts => ts.Name));
+            CreateMap<MenuPermission, MenuPermissionDetailDto>().ForMember(td => td.MenuName, opt => opt.MapFrom(ts => ts.Name));
             CreateMap<MenuPermission, MenuPermissionInsertDto>();
 
             CreateMap<MenuPermissionInsertDto, MenuPermission>();
-            CreateMap<MenuDetailDto, MenuPermission>();
+            CreateMap<MenuPermissionDetailDto, MenuPermission>();
         }
     }
 }

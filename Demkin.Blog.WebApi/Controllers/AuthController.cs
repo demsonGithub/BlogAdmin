@@ -6,12 +6,10 @@ using Demkin.Blog.Entity;
 using Demkin.Blog.Extensions.AuthRelated;
 using Demkin.Blog.IService;
 using Demkin.Blog.Utils.ClassExtension;
-using Demkin.Blog.Utils.Help;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using System.Threading.Tasks;
 
 namespace Demkin.Blog.WebApi.Controllers
@@ -63,7 +61,26 @@ namespace Demkin.Blog.WebApi.Controllers
 
             var result = FormatListToTree(menuFromDo, 0);
 
-            //var result = _mapper.Map<List<RoleMenuPermissionRelationDetailDto>>(menuFromDo);
+            return ApiHelper.Success(result);
+        }
+
+        /// <summary>
+        /// 根据角色名称查询能访问的菜单树
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost]
+        public async Task<ApiResponse<List<RoleMenuPermissionRelationDetailDto>>> GetMenuListByRoleName([FromBody] List<string> userRoleList)
+        {
+            if (userRoleList.Count == 0)
+            {
+                return ApiHelper.Failed<List<RoleMenuPermissionRelationDetailDto>>(ApiErrorCode.Client_Error.GetDescription(), "roleNameList不能为空", null);
+            }
+
+            var roleIds = await _roleService.GetRoleIdListByName(userRoleList.ToList());
+
+            var menuFromDo = await _roleMenuPermissionRelationService.GetRoleMenuPermissionMap(roleIds);
+
+            var result = FormatListToTree(menuFromDo, 0);
 
             return ApiHelper.Success(result);
         }
@@ -118,7 +135,10 @@ namespace Demkin.Blog.WebApi.Controllers
             return ApiHelper.Success();
         }
 
-        private List<RoleMenuPermissionRelationDetailDto> FormatListToTree(List<RoleMenuPermissionRelationDetailDto> sourceList, long pId)
+        #region 私有方法
+
+        private List<RoleMenuPermissionRelationDetailDto> FormatListToTree(
+            List<RoleMenuPermissionRelationDetailDto> sourceList, long pId)
         {
             var targetList = new List<RoleMenuPermissionRelationDetailDto>();
             // 找出所有的父节点
@@ -137,5 +157,7 @@ namespace Demkin.Blog.WebApi.Controllers
 
             return targetList;
         }
+
+        #endregion 私有方法
     }
 }
