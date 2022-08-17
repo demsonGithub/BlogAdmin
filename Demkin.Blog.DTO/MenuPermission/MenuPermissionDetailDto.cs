@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Demkin.Blog.Enum;
+using System.Collections.Generic;
 
 namespace Demkin.Blog.DTO.MenuPermission
 {
@@ -20,6 +21,11 @@ namespace Demkin.Blog.DTO.MenuPermission
         public string MenuName { get; set; }
 
         /// <summary>
+        /// 类型
+        /// </summary>
+        public LinkType LinkType { get; set; }
+
+        /// <summary>
         /// Url
         /// </summary>
         public string LinkUrl { get; set; }
@@ -33,6 +39,10 @@ namespace Demkin.Blog.DTO.MenuPermission
         /// 描述
         /// </summary>
         public string Description { get; set; }
+
+        public string SortNumber { get; set; }
+
+        public Status Status { get; set; }
 
         public List<MenuPermissionDetailDto> Children { get; set; }
     }

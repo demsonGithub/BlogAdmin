@@ -94,9 +94,9 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:Demkin.Blog.WebApi.Controllers.MenuPermissionController.GetMenuListByParentId(System.Int64)">
+        <member name="M:Demkin.Blog.WebApi.Controllers.MenuPermissionController.GetMenuList">
             <summary>
-            查询目录下的子菜单
+            查询目录和菜单 树形结构
             </summary>
             <returns></returns>
         </member>

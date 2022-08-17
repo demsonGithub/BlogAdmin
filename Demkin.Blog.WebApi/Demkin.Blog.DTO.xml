@@ -401,6 +401,11 @@
             菜单名称
             </summary>
         </member>
+        <member name="P:Demkin.Blog.DTO.MenuPermission.MenuPermissionDetailDto.LinkType">
+            <summary>
+            类型
+            </summary>
+        </member>
         <member name="P:Demkin.Blog.DTO.MenuPermission.MenuPermissionDetailDto.LinkUrl">
             <summary>
             Url
@@ -421,6 +426,11 @@
             父级节点的Id
             </summary>
         </member>
+        <member name="P:Demkin.Blog.DTO.MenuPermission.MenuPermissionInsertDto.LinkType">
+            <summary>
+            类型
+            </summary>
+        </member>
         <member name="P:Demkin.Blog.DTO.MenuPermission.MenuPermissionInsertDto.Name">
             <summary>
             菜单名称
@@ -429,11 +439,6 @@
         <member name="P:Demkin.Blog.DTO.MenuPermission.MenuPermissionInsertDto.LinkUrl">
             <summary>
             Url
-            </summary>
-        </member>
-        <member name="P:Demkin.Blog.DTO.MenuPermission.MenuPermissionInsertDto.ActionUrl">
-            <summary>
-            ActionUrl
             </summary>
         </member>
         <member name="P:Demkin.Blog.DTO.MenuPermission.MenuPermissionInsertDto.Icon">
@@ -446,54 +451,9 @@
             描述
             </summary>
         </member>
-        <member name="P:Demkin.Blog.DTO.MenuPermission.MenuPermissionInsertDto.LinkType">
-            <summary>
-            描述
-            </summary>
-        </member>
         <member name="P:Demkin.Blog.DTO.MenuPermission.MenuPermissionInsertDto.SortNumber">
             <summary>
             排序号
-            </summary>
-        </member>
-        <member name="P:Demkin.Blog.DTO.MenuPermission.PermissionDetailDto.ActionName">
-            <summary>
-            操作显示名称
-            </summary>
-        </member>
-        <member name="P:Demkin.Blog.DTO.MenuPermission.PermissionDetailDto.ActionUrl">
-            <summary>
-            路由操作地址
-            </summary>
-        </member>
-        <member name="P:Demkin.Blog.DTO.MenuPermission.PermissionDetailDto.MenuId">
-            <summary>
-            菜单模块的Id
-            </summary>
-        </member>
-        <member name="P:Demkin.Blog.DTO.MenuPermission.PermissionDetailDto.Description">
-            <summary>
-            描述
-            </summary>
-        </member>
-        <member name="P:Demkin.Blog.DTO.MenuPermission.PermissionInsertDto.ActionName">
-            <summary>
-            操作显示名称
-            </summary>
-        </member>
-        <member name="P:Demkin.Blog.DTO.MenuPermission.PermissionInsertDto.ActionUrl">
-            <summary>
-            路由操作地址
-            </summary>
-        </member>
-        <member name="P:Demkin.Blog.DTO.MenuPermission.PermissionInsertDto.MenuId">
-            <summary>
-            菜单模块的Id
-            </summary>
-        </member>
-        <member name="P:Demkin.Blog.DTO.MenuPermission.PermissionInsertDto.Description">
-            <summary>
-            描述
             </summary>
         </member>
         <member name="T:Demkin.Blog.DTO.PageModel`1">

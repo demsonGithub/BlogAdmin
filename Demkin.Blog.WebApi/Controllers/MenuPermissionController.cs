@@ -42,9 +42,7 @@ namespace Demkin.Blog.WebApi.Controllers
         [HttpPost]
         public async Task<ApiResponse<MenuPermission>> AddMenuPermission([FromBody] MenuPermissionInsertDto entityDto)
         {
-            if ((entityDto.LinkType == LinkType.Menu && string.IsNullOrEmpty(entityDto.LinkUrl)) ||
-                (entityDto.LinkType == LinkType.Catalog && string.IsNullOrEmpty(entityDto.LinkUrl)) ||
-                (entityDto.LinkType == LinkType.Button && string.IsNullOrEmpty(entityDto.ActionUrl)))
+            if (string.IsNullOrEmpty(entityDto.LinkUrl))
             {
                 return ApiHelper.Failed<MenuPermission>(ApiErrorCode.Client_Error.GetDescription(), "添加项类型的url不可为空", null);
             }
@@ -72,13 +70,13 @@ namespace Demkin.Blog.WebApi.Controllers
         /// <param name="menuPermissionId"></param>
         /// <returns></returns>
         [HttpDelete]
-        public async Task<ApiResponse<string>> DeleteMenuPermissionById(long menuPermissionId)
+        public async Task<ApiResponse<string>> DeleteMenuPermissionById([FromBody] long menuPermissionId)
         {
             var result = await _menuPermissionService.DeleteAsync(menuPermissionId);
 
             if (!result)
             {
-                return ApiHelper.Failed(ApiErrorCode.Server_Error.GetDescription(), "发生错误");
+                return ApiHelper.Failed(ApiErrorCode.Server_Error.GetDescription(), "Id不存在");
             }
             return ApiHelper.Success();
         }
@@ -88,7 +86,7 @@ namespace Demkin.Blog.WebApi.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpDelete]
-        public async Task<ApiResponse<string>> DeleteMenuPermissionByIdList(List<long> menuPermissionIds)
+        public async Task<ApiResponse<string>> DeleteMenuPermissionByIdList([FromBody] List<long> menuPermissionIds)
         {
             var resultNum = await _menuPermissionService.DeleteAsync(item => menuPermissionIds.Contains(item.Id));
 
@@ -106,7 +104,7 @@ namespace Demkin.Blog.WebApi.Controllers
         [HttpGet]
         public async Task<ApiResponse<List<MenuPermissionDetailDto>>> GetMenuPermissionList()
         {
-            var menuFromDo = await _menuPermissionService.GetEntityListAsync(item => item.Status == Status.Enable);
+            var menuFromDo = await _menuPermissionService.GetEntityListAsync();
 
             var result = _mapper.Map<List<MenuPermissionDetailDto>>(menuFromDo);
 
@@ -116,18 +114,19 @@ namespace Demkin.Blog.WebApi.Controllers
         }
 
         /// <summary>
-        /// 查询目录下的子菜单
+        /// 查询目录和菜单 树形结构
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public async Task<ApiResponse<List<MenuPermissionDetailDto>>> GetMenuListByParentId(long pId)
+        public async Task<ApiResponse<List<MenuPermissionDetailDto>>> GetMenuList()
         {
-            var menuFromDo = await _menuPermissionService.GetEntityListAsync(
-                item => item.ParentId == pId
-                && (item.LinkType == LinkType.Catalog || item.LinkType == LinkType.Menu)
+            var menuFromDo = await _menuPermissionService.GetEntityListAsync(item =>
+               (item.LinkType == LinkType.Catalog || item.LinkType == LinkType.Menu)
                 && item.Status == Status.Enable);
 
-            var result = _mapper.Map<List<MenuPermissionDetailDto>>(menuFromDo);
+            var menuList = _mapper.Map<List<MenuPermissionDetailDto>>(menuFromDo);
+
+            var result = FormatListToTree(menuList, 0);
 
             return ApiHelper.Success(result);
         }

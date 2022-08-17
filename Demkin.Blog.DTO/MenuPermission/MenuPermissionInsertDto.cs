@@ -10,6 +10,11 @@ namespace Demkin.Blog.DTO.MenuPermission
         public long ParentId { get; set; }
 
         /// <summary>
+        /// 类型
+        /// </summary>
+        public LinkType LinkType { get; set; }
+
+        /// <summary>
         /// 菜单名称
         /// </summary>
         public string Name { get; set; }
@@ -20,11 +25,6 @@ namespace Demkin.Blog.DTO.MenuPermission
         public string LinkUrl { get; set; }
 
         /// <summary>
-        /// ActionUrl
-        /// </summary>
-        public string ActionUrl { get; set; }
-
-        /// <summary>
         /// 图标
         /// </summary>
         public string Icon { get; set; }
@@ -33,11 +33,6 @@ namespace Demkin.Blog.DTO.MenuPermission
         /// 描述
         /// </summary>
         public string Description { get; set; }
-
-        /// <summary>
-        /// 描述
-        /// </summary>
-        public LinkType LinkType { get; set; }
 
         /// <summary>
         /// 排序号
