@@ -456,6 +456,51 @@
             排序号
             </summary>
         </member>
+        <member name="P:Demkin.Blog.DTO.MenuPermission.MenuPermissionUpdateDto.Id">
+            <summary>
+            Id
+            </summary>
+        </member>
+        <member name="P:Demkin.Blog.DTO.MenuPermission.MenuPermissionUpdateDto.ParentId">
+            <summary>
+            父级节点的Id
+            </summary>
+        </member>
+        <member name="P:Demkin.Blog.DTO.MenuPermission.MenuPermissionUpdateDto.LinkType">
+            <summary>
+            类型
+            </summary>
+        </member>
+        <member name="P:Demkin.Blog.DTO.MenuPermission.MenuPermissionUpdateDto.Name">
+            <summary>
+            菜单名称
+            </summary>
+        </member>
+        <member name="P:Demkin.Blog.DTO.MenuPermission.MenuPermissionUpdateDto.LinkUrl">
+            <summary>
+            Url
+            </summary>
+        </member>
+        <member name="P:Demkin.Blog.DTO.MenuPermission.MenuPermissionUpdateDto.Icon">
+            <summary>
+            图标
+            </summary>
+        </member>
+        <member name="P:Demkin.Blog.DTO.MenuPermission.MenuPermissionUpdateDto.Description">
+            <summary>
+            描述
+            </summary>
+        </member>
+        <member name="P:Demkin.Blog.DTO.MenuPermission.MenuPermissionUpdateDto.SortNumber">
+            <summary>
+            排序号
+            </summary>
+        </member>
+        <member name="P:Demkin.Blog.DTO.MenuPermission.MenuPermissionUpdateDto.Status">
+            <summary>
+            状态
+            </summary>
+        </member>
         <member name="T:Demkin.Blog.DTO.PageModel`1">
             <summary>
             分页信息

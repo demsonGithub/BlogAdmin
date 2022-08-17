@@ -88,6 +88,13 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:Demkin.Blog.WebApi.Controllers.MenuPermissionController.UpdateMenuPermission(Demkin.Blog.DTO.MenuPermission.MenuPermissionUpdateDto)">
+            <summary>
+            修改菜单
+            </summary>
+            <param name="entityDto"></param>
+            <returns></returns>
+        </member>
         <member name="M:Demkin.Blog.WebApi.Controllers.MenuPermissionController.GetMenuPermissionList">
             <summary>
             查询目录以及菜单列表

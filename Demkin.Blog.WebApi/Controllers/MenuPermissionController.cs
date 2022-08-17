@@ -98,6 +98,41 @@ namespace Demkin.Blog.WebApi.Controllers
         }
 
         /// <summary>
+        /// 修改菜单
+        /// </summary>
+        /// <param name="entityDto"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public async Task<ApiResponse<MenuPermission>> UpdateMenuPermission([FromBody] MenuPermissionUpdateDto entityDto)
+        {
+            if (string.IsNullOrEmpty(entityDto.LinkUrl))
+            {
+                return ApiHelper.Failed<MenuPermission>(ApiErrorCode.Client_Error.GetDescription(), "添加项类型的url不可为空", null);
+            }
+
+            var isExistId = await _menuPermissionService.IsExist(item => item.Id == entityDto.Id);
+            if (!isExistId)
+            {
+                return ApiHelper.Failed<MenuPermission>(ApiErrorCode.Client_Error.GetDescription(), "当前菜单Id已不存在，无法更改", null);
+            }
+            var isExistMenu = await _menuPermissionService.IsExist(item => item.Id != entityDto.Id && item.ParentId == entityDto.ParentId && item.Name == entityDto.Name);
+            if (isExistMenu)
+            {
+                return ApiHelper.Failed<MenuPermission>(ApiErrorCode.Client_Error.GetDescription(), "当前修改的菜单已存在，无法更改", null);
+            }
+
+            var entity = _mapper.Map<MenuPermission>(entityDto);
+
+            var result = await _menuPermissionService.UpdateAsync(entity);
+
+            if (!result)
+            {
+                return ApiHelper.Failed<MenuPermission>(ApiErrorCode.Client_Error.GetDescription(), "发生错误", null);
+            }
+            return ApiHelper.Success(entity);
+        }
+
+        /// <summary>
         /// 查询目录以及菜单列表
         /// </summary>
         /// <returns></returns>

@@ -16,6 +16,7 @@ namespace Demkin.Blog.Extensions.AutoMapper
 
             CreateMap<MenuPermissionInsertDto, MenuPermission>();
             CreateMap<MenuPermissionDetailDto, MenuPermission>();
+            CreateMap<MenuPermissionUpdateDto, MenuPermission>();
         }
     }
 }
